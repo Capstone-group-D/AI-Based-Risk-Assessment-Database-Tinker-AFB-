@@ -53,3 +53,22 @@ Given hazard characteristics (type, severity, exposure route), the system recomm
 
 ## How to Run 
 - Add setup steps once API/DB are initialized 
+
+### Running Unit Tests
+
+The project includes a minimal unit test suite for the PPE Recommendation feature implemented across multiple languages. The following steps describe how to run each set of tests locally.
+
+#### Python (pytest)
+pip install -U pytest
+pytest -q tests/python
+
+#### JavaScript (Jest)
+cd tests/javascript
+npm install
+npm test
+cd ../..
+
+#### Java (JUnit via Maven)
+cd tests/java
+mvn test
+cd ../..
