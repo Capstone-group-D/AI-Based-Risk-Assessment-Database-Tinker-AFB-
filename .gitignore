@@ -1,14 +1,30 @@
 # Python
 .venv/
+venv/
+env/
 __pycache__/
+*.pyc
 .pytest_cache/
 
 # Node
 node_modules/
+dist/
+build/
 
 # Java / Maven
 target/
 *.class
 
+# Environment
+.env
+.env.*
+*.pem
+*.key
+
+# Logs
+.log
+
 # OS
 .DS_Store
+.vscode/
+.idea/
