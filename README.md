@@ -54,6 +54,7 @@ Given hazard characteristics (type, severity, exposure route), the system recomm
 ## How to Run 
 - Add setup steps once API/DB are initialized 
 
+
 ### Running Unit Tests
 
 The project includes a minimal unit test suite for the PPE Recommendation feature implemented across multiple languages. The following steps describe how to run each set of tests locally.
@@ -72,3 +73,17 @@ The project includes a minimal unit test suite for the PPE Recommendation featur
 - cd tests/java
 - mvn test
 - cd ../..
+
+### Running the Frontend
+
+#### Prerequisites
+- Node.js 18+ and npm
+
+#### Setup
+- cd frontend
+- npm install
+
+#### Start the Dev Server
+- cd frontend
+- npm run dev
+Open http://localhost:3000 in your browser.

@@ -8,8 +8,9 @@ __pycache__/
 
 # Node
 node_modules/
-dist/
-build/
+
+# Frontend build output
+frontend/dist/
 
 # Java / Maven
 target/
@@ -17,12 +18,6 @@ target/
 
 # Environment
 .env
-.env.*
-*.pem
-*.key
-
-# Logs
-.log
 
 # OS
 .DS_Store

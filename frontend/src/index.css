@@ -1,0 +1,96 @@
+/**
+ * index.css — Global Styles
+ *
+ * Loaded once in main.jsx before any component renders.
+ * Sets the visual foundation for the entire app:
+ *
+ * Theme colors:
+ *   - Background:  #1a1d23 (dark charcoal)
+ *   - Panels:      #1e2028 (slightly lighter, used in cards)
+ *   - Borders:     #2a2d35 (subtle dividers)
+ *   - Text:        #e0e0e0 (light gray)
+ *   - Accent:      #ff6b35 (safety orange — links, active states, highlights)
+ *   - Muted text:  #6b7280 (secondary info)
+ *
+ * Font: IBM Plex Mono (monospace) — loaded from Google Fonts
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
+
+/* Reset box-sizing so padding doesn't break layouts */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Root-level defaults applied to the entire page */
+:root {
+  font-family: 'IBM Plex Mono', monospace;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #e0e0e0;
+  background-color: #1a1d23;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* The React mount point — flex so App.jsx's layout fills the viewport */
+#root {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Links use safety-orange accent color */
+a {
+  color: #ff6b35;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #e55a28;
+}
+
+/* Ensure all interactive elements use the monospace font */
+button {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+select {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+textarea {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+/* Text selection highlight uses a translucent orange */
+::selection {
+  background: rgba(255, 107, 53, 0.3);
+  color: #fff;
+}
+
+/* Custom scrollbar styling (Chrome/Edge/Safari) */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #12141a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2a2d35;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3a3d45;
+}

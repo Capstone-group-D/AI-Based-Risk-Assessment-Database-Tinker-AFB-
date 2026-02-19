@@ -1,0 +1,52 @@
+/**
+ * App.css — Layout Styles for App.jsx
+ *
+ * Defines the two-column layout: fixed sidebar on the left,
+ * flexible main content area on the right (header + page content).
+ *
+ * Also includes styles for the placeholder pages (Risk Assessments, PPE Guide)
+ * that will be replaced with real components in future sprints.
+ */
+
+/* Two-column flex layout: sidebar (fixed width) + main content (fills remaining space) */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Right side container: stacks Header on top and page content below */
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Scrollable area where the active page component renders */
+.app-content {
+  flex: 1;
+  overflow-y: auto;
+  background: #1a1d23;
+}
+
+/* Placeholder page styles for pages not yet built (assessments, ppe-guide) */
+.placeholder-page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 32px 24px;
+}
+
+.placeholder-page h2 {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #e0e0e0;
+  margin: 0 0 8px 0;
+}
+
+.placeholder-page p {
+  font-size: 0.82rem;
+  color: #6b7280;
+}
