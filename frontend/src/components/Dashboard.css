@@ -389,3 +389,10 @@
   border-radius: 4px;
   padding: 2px 8px;
 }
+
+/* Incident flag chip — red override on top of .keyword-tag */
+.keyword-tag.incident-tag {
+  color: #fca5a5;
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+}

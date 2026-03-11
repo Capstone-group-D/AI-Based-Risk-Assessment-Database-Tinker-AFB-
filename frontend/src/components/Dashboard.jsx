@@ -3,20 +3,31 @@
  *
  * Sections:
  *   1. Task input form  — describe a task, pick severity, submit for analysis
- *   2. Hazardous Materials Database — fetched from GET /api/v1/hazmat on mount,
- *      with loading spinner, error card, and per-material detail cards.
+ *   2. Safety Records   — fetched from GET /api/v1/safety-records on mount,
+ *      with loading spinner, error card, and per-record detail cards.
+ *
+ * Field mapping from the database (db/schema.sql):
+ *   record.record_id        → safety_records.record_id
+ *   record.hazard_label     → hazards.hazard_label
+ *   record.hazard_category  → hazards.hazard_category
+ *   record.exposure_level   → safety_records.exposure_level
+ *   record.work_type        → safety_records.work_type
+ *   record.location         → safety_records.location
+ *   record.shift            → safety_records.shift
+ *   record.incident_flag    → safety_records.incident_flag
+ *   record.ppe_required[]   → JOIN safety_record_ppe → ppe
  */
 
 import { useState, useEffect } from 'react'
-import { fetchHazmatList } from '../api/hazmat'
+import { fetchSafetyRecords } from '../api/hazmat'
 import './Dashboard.css'
 
-// Color map for severity levels — matches the project's CSS palette
-const SEVERITY_COLOR = {
+// Exposure level colors — matches db/schema.sql CHECK constraint values
+const EXPOSURE_COLOR = {
   Low:      '#34d399',   // green
-  Medium:   '#fbbf24',   // yellow
+  Moderate: '#fbbf24',   // yellow
   High:     '#f97316',   // orange
-  Critical: '#ef4444',   // red
+  Severe:   '#ef4444',   // red
 }
 
 export default function Dashboard() {
@@ -24,19 +35,19 @@ export default function Dashboard() {
   const [taskDescription, setTaskDescription] = useState('')
   const [severity, setSeverity] = useState('Medium')
 
-  // ── Hazmat list state ───────────────────────────────────────────────────────
-  const [hazmatList, setHazmatList] = useState([])
-  const [loading, setLoading]       = useState(true)
-  const [error, setError]           = useState(null)
+  // ── Safety records state ────────────────────────────────────────────────────
+  const [records, setRecords]   = useState([])
+  const [loading, setLoading]   = useState(true)
+  const [error, setError]       = useState(null)
 
-  // Fetch hazmat list once on mount; cancelled flag prevents setState after unmount
+  // Fetch safety records once on mount; cancelled flag prevents setState after unmount
   useEffect(() => {
     let cancelled = false
 
-    fetchHazmatList()
+    fetchSafetyRecords()
       .then((data) => {
         if (!cancelled) {
-          setHazmatList(data)
+          setRecords(data)
           setLoading(false)
         }
       })
@@ -56,7 +67,7 @@ export default function Dashboard() {
   // ── Form submit ─────────────────────────────────────────────────────────────
   const handleSubmit = (e) => {
     e.preventDefault()
-    // Future: POST to /api/v1/ppe/recommend with { task_description, severity }
+    // Future: POST to /api/v1/recommend-ppe with { task_description, severity }
   }
 
   // ── Render ──────────────────────────────────────────────────────────────────
@@ -102,12 +113,12 @@ export default function Dashboard() {
         </div>
       </form>
 
-      {/* ── Section 2: Hazardous Materials Database ────────────────────────── */}
+      {/* ── Section 2: Safety Records ──────────────────────────────────────── */}
       <div className="hazmat-section">
         <div className="hazmat-section-header">
-          <h3>Hazardous Materials Database</h3>
+          <h3>Safety Records</h3>
           {!loading && !error && (
-            <span className="hazmat-count">{hazmatList.length} materials</span>
+            <span className="hazmat-count">{records.length} records</span>
           )}
         </div>
 
@@ -115,7 +126,7 @@ export default function Dashboard() {
         {loading && (
           <div className="loading-card">
             <span className="loading-spinner" />
-            Loading hazardous materials…
+            Loading safety records…
           </div>
         )}
 
@@ -128,43 +139,48 @@ export default function Dashboard() {
         )}
 
         {/* Empty */}
-        {!loading && !error && hazmatList.length === 0 && (
-          <div className="empty-card">No hazardous materials found in the database.</div>
+        {!loading && !error && records.length === 0 && (
+          <div className="empty-card">No safety records found in the database.</div>
         )}
 
         {/* Data */}
-        {!loading && !error && hazmatList.length > 0 && (
+        {!loading && !error && records.length > 0 && (
           <div className="results">
-            {hazmatList.map((mat) => (
-              <div key={mat.id} className="hazard-card">
+            {records.map((record) => (
+              <div key={record.record_id} className="hazard-card">
 
                 <div className="hazard-card-header">
-                  <span className="hazard-code">{mat.code}</span>
-                  <span className="hazard-name">{mat.name}</span>
+                  <span className="hazard-code">{record.record_id}</span>
+                  <span className="hazard-name">{record.hazard_label}</span>
                   <span
                     className="severity-badge"
-                    style={{ color: SEVERITY_COLOR[mat.severity] ?? '#e0e0e0' }}
+                    style={{ color: EXPOSURE_COLOR[record.exposure_level] ?? '#e0e0e0' }}
                   >
-                    {mat.severity}
+                    {record.exposure_level}
                   </span>
                 </div>
 
+                {/* hazard_category (from hazards table) + work_type (from safety_records) */}
                 <div className="hazard-meta">
-                  <span className="hazard-category">{mat.category}</span>
-                  <span className="hazard-class">{mat.hazard_class}</span>
+                  <span className="hazard-category">{record.hazard_category}</span>
+                  <span className="hazard-class">{record.work_type}</span>
                 </div>
 
+                {/* location, shift, and incident flag as keyword chips */}
                 <div className="hazard-keywords">
-                  {mat.exposure_routes.map((route) => (
-                    <span key={route} className="keyword-tag">{route}</span>
-                  ))}
+                  <span className="keyword-tag">{record.location}</span>
+                  <span className="keyword-tag">{record.shift} Shift</span>
+                  {record.incident_flag && (
+                    <span className="keyword-tag incident-tag">Incident</span>
+                  )}
                 </div>
 
+                {/* ppe_required — joined from safety_record_ppe + ppe tables */}
                 <div className="hazard-ppe-list">
-                  {mat.ppe_required.map((ppe, idx) => (
-                    <div key={idx} className="hazard-ppe-item">
-                      <span className="ppe-name">{ppe.name}</span>
-                      <span className="ppe-rationale">{ppe.rationale}</span>
+                  {record.ppe_required.map((ppe) => (
+                    <div key={ppe.ppe_id} className="hazard-ppe-item">
+                      <span className="ppe-name">{ppe.ppe_label}</span>
+                      <span className="ppe-rationale">{ppe.ppe_category}</span>
                     </div>
                   ))}
                 </div>
