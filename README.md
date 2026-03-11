@@ -51,8 +51,36 @@ Given hazard characteristics (type, severity, exposure route), the system recomm
 - Add NLP query prototype (basic intent extraction) 
  
 
-## How to Run 
-- Add setup steps once API/DB are initialized 
+## How to Run
+
+### Backend (FastAPI)
+
+#### Prerequisites
+- Python 3.10+
+
+#### Setup & Start
+```bash
+cd api
+pip install -r requirements.txt
+uvicorn main:app --reload --port 8000
+```
+API available at http://localhost:8000
+Interactive docs at http://localhost:8000/docs
+
+### Frontend (React + Vite)
+
+#### Prerequisites
+- Node.js 18+ and npm
+
+#### Setup & Start
+```bash
+cd frontend
+npm install
+npm run dev
+```
+Open http://localhost:3000 in your browser.
+
+> Both servers must be running at the same time for the frontend to connect to the API.
 
 
 ### Running Unit Tests
@@ -74,16 +102,3 @@ The project includes a minimal unit test suite for the PPE Recommendation featur
 - mvn test
 - cd ../..
 
-### Running the Frontend
-
-#### Prerequisites
-- Node.js 18+ and npm
-
-#### Setup
-- cd frontend
-- npm install
-
-#### Start the Dev Server
-- cd frontend
-- npm run dev
-Open http://localhost:3000 in your browser.
