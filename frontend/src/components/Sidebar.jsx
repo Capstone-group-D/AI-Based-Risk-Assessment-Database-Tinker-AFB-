@@ -52,7 +52,7 @@ export default function Sidebar({ activePage, onNavigate }) {
 
       {/* Footer — displays current sprint and version number */}
       <div className="sidebar-footer">
-        <span className="sidebar-version">Sprint 1 — v0.1.0</span>
+        <span className="sidebar-version">Sprint 2 — v0.2.0</span>
       </div>
     </aside>
   )
