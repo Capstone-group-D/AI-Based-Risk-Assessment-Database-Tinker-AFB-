@@ -1,0 +1,409 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-02-19T06:42:15Z",
+  "source": {
+    "type": "pdf",
+    "filename": "Risk Assess Form.pdf"
+  },
+  "hazards": {
+    "count": 33,
+    "categories": [
+      "Biological",
+      "Chemical & Airborne",
+      "Ergonomics & Human Factors",
+      "Mechanical & Equipment",
+      "Other",
+      "Physical Environment",
+      "Sharp Objects",
+      "Slips, Trips, Falls & Work at Height"
+    ],
+    "items": [
+      {
+        "id": "haz_insect_snake_animal",
+        "label": "Insect/ Snake/ Animal",
+        "category": "Biological"
+      },
+      {
+        "id": "haz_fire_explosion",
+        "label": "Fire/ Explosion",
+        "category": "Chemical & Airborne"
+      },
+      {
+        "id": "haz_hazardous_materials_exposure",
+        "label": "Hazardous Materials Exposure",
+        "category": "Chemical & Airborne"
+      },
+      {
+        "id": "haz_spill_release",
+        "label": "Spill/ Release",
+        "category": "Chemical & Airborne"
+      },
+      {
+        "id": "haz_ventilation_fumes_mist_dust",
+        "label": "Ventilation/ Fumes/ Mist/ Dust",
+        "category": "Chemical & Airborne"
+      },
+      {
+        "id": "haz_excessive_force_exertion_level",
+        "label": "Excessive Force/ Exertion Level",
+        "category": "Ergonomics & Human Factors"
+      },
+      {
+        "id": "haz_eyes_on_hands_work",
+        "label": "Eyes on Hands/ Work",
+        "category": "Ergonomics & Human Factors"
+      },
+      {
+        "id": "haz_lifting_twisting_pulling",
+        "label": "Lifting/ Twisting/ Pulling",
+        "category": "Ergonomics & Human Factors"
+      },
+      {
+        "id": "haz_pace_repetitive_motion",
+        "label": "Pace/ Repetitive Motion",
+        "category": "Ergonomics & Human Factors"
+      },
+      {
+        "id": "haz_reaching_awkward_position",
+        "label": "Reaching/ Awkward Position",
+        "category": "Ergonomics & Human Factors"
+      },
+      {
+        "id": "haz_electrical_mechanical_energy",
+        "label": "Electrical/ Mechanical Energy",
+        "category": "Mechanical & Equipment"
+      },
+      {
+        "id": "haz_gravity_potential_energy",
+        "label": "Gravity/ Potential Energy",
+        "category": "Mechanical & Equipment"
+      },
+      {
+        "id": "haz_heavy_load_secure",
+        "label": "Heavy Load/ Secure",
+        "category": "Mechanical & Equipment"
+      },
+      {
+        "id": "haz_improper_damaged_tool",
+        "label": "Improper/ Damaged Tool",
+        "category": "Mechanical & Equipment"
+      },
+      {
+        "id": "haz_line_of_fire",
+        "label": "Line of Fire",
+        "category": "Mechanical & Equipment"
+      },
+      {
+        "id": "haz_machine_guards",
+        "label": "Machine Guards",
+        "category": "Mechanical & Equipment"
+      },
+      {
+        "id": "haz_pinch_points",
+        "label": "Pinch Points",
+        "category": "Mechanical & Equipment"
+      },
+      {
+        "id": "haz_reaction_pressure_vacuum",
+        "label": "Reaction/ Pressure/ Vacuum",
+        "category": "Mechanical & Equipment"
+      },
+      {
+        "id": "haz_other",
+        "label": "Other",
+        "category": "Other"
+      },
+      {
+        "id": "haz_congestion_tight_spaces",
+        "label": "Congestion/ Tight Spaces",
+        "category": "Physical Environment"
+      },
+      {
+        "id": "haz_head_knocker",
+        "label": "Head Knocker",
+        "category": "Physical Environment"
+      },
+      {
+        "id": "haz_heat_cold_environment",
+        "label": "Heat/ Cold Environment",
+        "category": "Physical Environment"
+      },
+      {
+        "id": "haz_high_noise",
+        "label": "High Noise",
+        "category": "Physical Environment"
+      },
+      {
+        "id": "haz_hot_cold_surfaces",
+        "label": "Hot/ Cold Surfaces",
+        "category": "Physical Environment"
+      },
+      {
+        "id": "haz_housekeeping",
+        "label": "Housekeeping",
+        "category": "Physical Environment"
+      },
+      {
+        "id": "haz_inadequate_lighting",
+        "label": "Inadequate Lighting",
+        "category": "Physical Environment"
+      },
+      {
+        "id": "haz_overhead_work_falling_objects",
+        "label": "Overhead Work/ Falling Objects",
+        "category": "Physical Environment"
+      },
+      {
+        "id": "haz_path_of_travel",
+        "label": "Path of Travel",
+        "category": "Physical Environment"
+      },
+      {
+        "id": "haz_walking_space",
+        "label": "Walking Space",
+        "category": "Physical Environment"
+      },
+      {
+        "id": "haz_cut_puncture_sharp_edge",
+        "label": "Cut/Puncture/ Sharp Edge",
+        "category": "Sharp Objects"
+      },
+      {
+        "id": "haz_climbing_crawling_bending",
+        "label": "Climbing/ Crawling/ Bending",
+        "category": "Slips, Trips, Falls & Work at Height"
+      },
+      {
+        "id": "haz_fall_from_elevation",
+        "label": "Fall From Elevation",
+        "category": "Slips, Trips, Falls & Work at Height"
+      },
+      {
+        "id": "haz_slips_trips_falls",
+        "label": "Slips/ Trips/ Falls",
+        "category": "Slips, Trips, Falls & Work at Height"
+      }
+    ]
+  },
+  "ppe": {
+    "categories": [
+      "Eye/Face Protection",
+      "Hearing Protection",
+      "Hand Protection",
+      "Foot Protection",
+      "Head Protection",
+      "Respiratory Protection",
+      "Arc Flash Protection",
+      "Fall Protection"
+    ],
+    "items_by_category": [
+      {
+        "category": "Eye/Face Protection",
+        "items": [
+          {
+            "id": "ppe_safety_glasses",
+            "label": "Safety Glasses"
+          },
+          {
+            "id": "ppe_face_shield",
+            "label": "Face Shield"
+          },
+          {
+            "id": "ppe_goggles",
+            "label": "Goggles"
+          }
+        ]
+      },
+      {
+        "category": "Hearing Protection",
+        "items": [
+          {
+            "id": "ppe_ear_plugs",
+            "label": "Ear Plugs"
+          },
+          {
+            "id": "ppe_earmuffs",
+            "label": "Earmuffs"
+          },
+          {
+            "id": "ppe_double_hearing_protection",
+            "label": "Double Hearing Protection"
+          }
+        ]
+      },
+      {
+        "category": "Hand Protection",
+        "items": [
+          {
+            "id": "ppe_cut_resistant_gloves",
+            "label": "Cut Resistant Gloves"
+          },
+          {
+            "id": "ppe_chemical_resistant_gloves",
+            "label": "Chemical Resistant Gloves"
+          },
+          {
+            "id": "ppe_heat_cold_resistant_gloves",
+            "label": "Heat/Cold Resistant Gloves"
+          }
+        ]
+      },
+      {
+        "category": "Foot Protection",
+        "items": [
+          {
+            "id": "ppe_steel_toe_shoes",
+            "label": "Steel Toe Shoes"
+          }
+        ]
+      },
+      {
+        "category": "Head Protection",
+        "items": [
+          {
+            "id": "ppe_hard_hat",
+            "label": "Hard Hat"
+          },
+          {
+            "id": "ppe_bump_cap",
+            "label": "Bump Cap"
+          }
+        ]
+      },
+      {
+        "category": "Respiratory Protection",
+        "items": [
+          {
+            "id": "ppe_respirator",
+            "label": "Respirator"
+          },
+          {
+            "id": "ppe_papr",
+            "label": "PAPR"
+          },
+          {
+            "id": "ppe_supplied_air",
+            "label": "Supplied Air"
+          }
+        ]
+      },
+      {
+        "category": "Arc Flash Protection",
+        "items": [
+          {
+            "id": "ppe_fr_clothing",
+            "label": "FR Clothing"
+          }
+        ]
+      },
+      {
+        "category": "Fall Protection",
+        "items": [
+          {
+            "id": "ppe_passive_guard_rails_restraint",
+            "label": "Passive (Guard Rails, Restraint)"
+          },
+          {
+            "id": "ppe_active_harness_and_lanyard",
+            "label": "Active (Harness and Lanyard)"
+          },
+          {
+            "id": "ppe_rescue_plan_required_for_active_restraints",
+            "label": "Rescue Plan (required for active restraints)"
+          }
+        ]
+      }
+    ]
+  },
+  "controls_and_requirements": {
+    "note": "Non-PPE controls/checks captured from the form section below PPE. Keep if useful for future mitigation recommendations.",
+    "items_by_category": [
+      {
+        "category": "Lockout/Tagout (LOTO)",
+        "items": [
+          {
+            "id": "ctl_form_493",
+            "label": "Form 493"
+          },
+          {
+            "id": "ctl_depressure_drain",
+            "label": "Depressure/Drain"
+          },
+          {
+            "id": "ctl_block_shore_all_suspended_loads",
+            "label": "Block/Shore all Suspended Loads"
+          }
+        ]
+      },
+      {
+        "category": "Confined Space",
+        "items": [
+          {
+            "id": "ctl_non_permit_required",
+            "label": "Non-Permit Required"
+          },
+          {
+            "id": "ctl_permit_required",
+            "label": "Permit Required"
+          },
+          {
+            "id": "ctl_gas_test_required_for_all",
+            "label": "Gas Test (required for all)"
+          }
+        ]
+      },
+      {
+        "category": "Hot Work",
+        "items": [
+          {
+            "id": "ctl_standby_fire_watch",
+            "label": "Standby/Fire Watch"
+          }
+        ]
+      },
+      {
+        "category": "Vehicle Inspection",
+        "items": [
+          {
+            "id": "ctl_cart_mule_gator",
+            "label": "Cart/Mule/Gator"
+          },
+          {
+            "id": "ctl_scissor_lift",
+            "label": "Scissor Lift"
+          },
+          {
+            "id": "ctl_boom_lift",
+            "label": "Boom Lift"
+          }
+        ]
+      },
+      {
+        "category": "Material Handling Equipment",
+        "items": [
+          {
+            "id": "ctl_crane_hoist_inspection",
+            "label": "Crane/Hoist Inspection"
+          },
+          {
+            "id": "ctl_rigging_sling_chain_inspection",
+            "label": "Rigging Sling/Chain Inspection"
+          }
+        ]
+      },
+      {
+        "category": "General",
+        "items": [
+          {
+            "id": "ctl_proper_ppe",
+            "label": "Proper PPE"
+          },
+          {
+            "id": "ctl_program_equipment",
+            "label": "Program/Equipment"
+          }
+        ]
+      }
+    ]
+  }
+}
