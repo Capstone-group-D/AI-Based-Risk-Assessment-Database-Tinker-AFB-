@@ -15,8 +15,8 @@
  *
  * Currently active pages:
  *   - 'dashboard'   → Dashboard component (task hazard analysis form)
- *   - 'assessments' → Placeholder (Sprint 3)
- *   - 'ppe-guide'   → Placeholder (Sprint 3)
+ *   - 'assessments' → Placeholder (Sprint 2)
+ *   - 'ppe-guide'   → Placeholder (Sprint 2)
  */
 
 import { useState } from 'react'

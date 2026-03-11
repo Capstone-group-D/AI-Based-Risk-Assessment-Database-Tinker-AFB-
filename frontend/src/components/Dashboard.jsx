@@ -1,52 +1,74 @@
 /**
  * Dashboard.jsx — Main Task Hazard Analysis Page
  *
- * This is the primary page of the application. It provides:
- *   - A textarea where the user describes a work task in plain text
- *   - A severity dropdown (Low / Medium / High / Critical)
- *   - A submit button to trigger hazard analysis
- *
- * Current state (Sprint 1):
- *   The form elements are wired up with React state but the submit
- *   handler is a no-op — there is no backend to call yet. A placeholder
- *   message is shown where results will eventually appear.
- *
- * Future integration (when backend is ready):
- *   - Import axios
- *   - In handleSubmit, POST to /api/v1/ppe/recommend with:
- *       { task_description: taskDescription, severity: severity }
- *   - Display the response: matched hazards and recommended PPE items
- *   - See Dashboard.css for result card styles (.results, .hazard-card,
- *     .ppe-summary-card, .ppe-chip, etc.) which are already defined
+ * Sections:
+ *   1. Task input form  — describe a task, pick severity, submit for analysis
+ *   2. Hazardous Materials Database — fetched from GET /api/v1/hazmat on mount,
+ *      with loading spinner, error card, and per-material detail cards.
  */
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { fetchHazmatList } from '../api/hazmat'
 import './Dashboard.css'
 
+// Color map for severity levels — matches the project's CSS palette
+const SEVERITY_COLOR = {
+  Low:      '#34d399',   // green
+  Medium:   '#fbbf24',   // yellow
+  High:     '#f97316',   // orange
+  Critical: '#ef4444',   // red
+}
+
 export default function Dashboard() {
-  // Controlled form state for the task description textarea
+  // ── Form state ─────────────────────────────────────────────────────────────
   const [taskDescription, setTaskDescription] = useState('')
-  // Controlled form state for the severity dropdown
   const [severity, setSeverity] = useState('Medium')
 
-  /**
-   * Form submit handler.
-   * Currently prevents default form behavior only.
-   * Will be updated to call the backend API when it's available.
-   */
+  // ── Hazmat list state ───────────────────────────────────────────────────────
+  const [hazmatList, setHazmatList] = useState([])
+  const [loading, setLoading]       = useState(true)
+  const [error, setError]           = useState(null)
+
+  // Fetch hazmat list once on mount; cancelled flag prevents setState after unmount
+  useEffect(() => {
+    let cancelled = false
+
+    fetchHazmatList()
+      .then((data) => {
+        if (!cancelled) {
+          setHazmatList(data)
+          setLoading(false)
+        }
+      })
+      .catch((err) => {
+        if (!cancelled) {
+          const msg = err.response
+            ? `API error ${err.response.status}: ${err.response.statusText}`
+            : 'Could not reach the API. Is the backend running on port 8000?'
+          setError(msg)
+          setLoading(false)
+        }
+      })
+
+    return () => { cancelled = true }
+  }, [])
+
+  // ── Form submit ─────────────────────────────────────────────────────────────
   const handleSubmit = (e) => {
     e.preventDefault()
+    // Future: POST to /api/v1/ppe/recommend with { task_description, severity }
   }
 
+  // ── Render ──────────────────────────────────────────────────────────────────
   return (
     <div className="dashboard">
-      {/* Page header — title and instructions */}
+
+      {/* ── Section 1: Task input form ─────────────────────────────────────── */}
       <div className="dashboard-intro">
         <h2>Task Hazard Analysis</h2>
         <p>Describe the work task below. The system will identify hazards and recommend required PPE.</p>
       </div>
 
-      {/* Input form — task description textarea + severity select + submit button */}
       <form className="input-card" onSubmit={handleSubmit}>
         <label className="input-label" htmlFor="task-input">Task Description</label>
         <textarea
@@ -59,7 +81,6 @@ export default function Dashboard() {
         />
 
         <div className="input-row">
-          {/* Severity selector — affects which PPE rules are triggered by the backend */}
           <div className="select-group">
             <label className="input-label" htmlFor="severity-select">Severity</label>
             <select
@@ -75,17 +96,85 @@ export default function Dashboard() {
             </select>
           </div>
 
-          {/* Submit button — disabled when textarea is empty */}
           <button type="submit" className="submit-btn" disabled={!taskDescription.trim()}>
             Analyze Task
           </button>
         </div>
       </form>
 
-      {/* Placeholder message — will be replaced with results when backend is connected */}
-      <div className="empty-card">
-        Backend not yet connected. The UI is ready — PPE recommendations will appear here once the API and database are configured.
+      {/* ── Section 2: Hazardous Materials Database ────────────────────────── */}
+      <div className="hazmat-section">
+        <div className="hazmat-section-header">
+          <h3>Hazardous Materials Database</h3>
+          {!loading && !error && (
+            <span className="hazmat-count">{hazmatList.length} materials</span>
+          )}
+        </div>
+
+        {/* Loading */}
+        {loading && (
+          <div className="loading-card">
+            <span className="loading-spinner" />
+            Loading hazardous materials…
+          </div>
+        )}
+
+        {/* Error */}
+        {!loading && error && (
+          <div className="error-card">
+            <span className="error-icon">!</span>
+            {error}
+          </div>
+        )}
+
+        {/* Empty */}
+        {!loading && !error && hazmatList.length === 0 && (
+          <div className="empty-card">No hazardous materials found in the database.</div>
+        )}
+
+        {/* Data */}
+        {!loading && !error && hazmatList.length > 0 && (
+          <div className="results">
+            {hazmatList.map((mat) => (
+              <div key={mat.id} className="hazard-card">
+
+                <div className="hazard-card-header">
+                  <span className="hazard-code">{mat.code}</span>
+                  <span className="hazard-name">{mat.name}</span>
+                  <span
+                    className="severity-badge"
+                    style={{ color: SEVERITY_COLOR[mat.severity] ?? '#e0e0e0' }}
+                  >
+                    {mat.severity}
+                  </span>
+                </div>
+
+                <div className="hazard-meta">
+                  <span className="hazard-category">{mat.category}</span>
+                  <span className="hazard-class">{mat.hazard_class}</span>
+                </div>
+
+                <div className="hazard-keywords">
+                  {mat.exposure_routes.map((route) => (
+                    <span key={route} className="keyword-tag">{route}</span>
+                  ))}
+                </div>
+
+                <div className="hazard-ppe-list">
+                  {mat.ppe_required.map((ppe, idx) => (
+                    <div key={idx} className="hazard-ppe-item">
+                      <span className="ppe-name">{ppe.name}</span>
+                      <span className="ppe-rationale">{ppe.rationale}</span>
+                    </div>
+                  ))}
+                </div>
+
+              </div>
+            ))}
+          </div>
+        )}
       </div>
+
     </div>
   )
 }
