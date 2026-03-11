@@ -18,19 +18,21 @@ from fastapi.middleware.cors import CORSMiddleware
 from typing import List
 from pydantic import BaseModel
 
+from core.config import settings
+
 
 app = FastAPI(
-    title="PPE Recommendation Engine API",
+    title=settings.PROJECT_NAME,
     description="AI-Based Risk Assessment Database — Tinker AFB",
-    version="0.1.0",
+    version=settings.VERSION,
 )
 
 # CORS — allow the Vite dev server (port 3000) to call this API directly.
 # In production this would be restricted to the deployed frontend origin.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
-    allow_methods=["GET", "POST"],
+    allow_origins=settings.BACKEND_CORS_ORIGINS,
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
 )
 
