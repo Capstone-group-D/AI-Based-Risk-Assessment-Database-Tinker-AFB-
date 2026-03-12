@@ -81,3 +81,50 @@ CREATE TABLE IF NOT EXISTS safety_record_docs (
 CREATE INDEX IF NOT EXISTS idx_safety_date ON safety_records(date);
 CREATE INDEX IF NOT EXISTS idx_safety_hazard ON safety_records(hazard_id);
 CREATE INDEX IF NOT EXISTS idx_safety_incident ON safety_records(incident_flag);
+
+-- ============================================
+-- AUL (Authorized User List) Tables
+-- Source: Krystal Tilson, Tinker AFB, March 2026
+-- Sheet: "HM - MATERIAL AUTH IN SHOP SEQ"
+-- ============================================
+
+-- ======================
+-- Materials Reference Table
+-- Each MSN (Material Stock Number) identifies a unique hazardous material.
+-- Profiling confirmed: msn->noun is 1:1 (1 minor conflict resolved by
+-- majority-wins heuristic), msn->bulk_issue is strictly 1:1.
+-- ======================
+CREATE TABLE IF NOT EXISTS materials (
+    msn TEXT PRIMARY KEY,
+    noun TEXT NOT NULL,
+    bulk_issue BOOLEAN
+);
+
+-- ======================
+-- Shops Reference Table
+-- Each shop_code identifies a location authorized to handle materials.
+-- Profiling confirmed: shop_code->org_symbol is strictly 1:1.
+-- ======================
+CREATE TABLE IF NOT EXISTS shops (
+    shop_code TEXT PRIMARY KEY,
+    org_symbol TEXT NOT NULL
+);
+
+-- ======================
+-- Material Authorizations (Fact Table)
+-- One row per distinct material-shop-process authorization.
+-- dist_pct uses NUMERIC(7,4) to preserve values like 33.3333 without
+-- truncation. Values are stored as literal percentages (100 = 100%).
+-- ======================
+CREATE TABLE IF NOT EXISTS material_authorizations (
+    id SERIAL PRIMARY KEY,
+    msn TEXT NOT NULL REFERENCES materials(msn),
+    shop_code TEXT NOT NULL REFERENCES shops(shop_code),
+    process_name TEXT,
+    local_process_name TEXT,
+    dist_pct NUMERIC(7,4),
+    max_on_hand INTEGER
+);
+
+CREATE INDEX IF NOT EXISTS idx_matauth_shop_code ON material_authorizations(shop_code);
+CREATE INDEX IF NOT EXISTS idx_matauth_msn ON material_authorizations(msn);
