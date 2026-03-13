@@ -26,8 +26,7 @@ class PpeRecommendationTest {
     void chemicalHighInhalationIncludesRespirator() { 
         List<String> recs = recommendPpe("chemical", "high", "inhalation"); 
         assertTrue(recs.contains("respirator")); 
-    } 
-} 
+    }}
  
 
  
