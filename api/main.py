@@ -121,8 +121,6 @@ SAFETY_RECORDS_DB: List[SafetyRecord] = [
         hazard_category="Chemical",
         exposure_level="High",
         temperature_f=78,
-@@ -225,47 +256,148 @@ SAFETY_RECORDS_DB: List[SafetyRecord] = [
-        ],
     ),
     SafetyRecord(
         record_id="REC-1007",
