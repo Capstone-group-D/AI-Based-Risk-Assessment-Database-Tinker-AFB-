@@ -57,12 +57,12 @@ class SafetyRecord(BaseModel):
     hazard_category: str
     exposure_level: str       # "Low" | "Moderate" | "High" | "Severe"
     temperature_f: int
-    noise_db: int
-    airborne_particles_ppm: float
-    supervisor: str
-    shift: str                # "Day" | "Swing" | "Night"
-    incident_flag: bool
-    ppe_required: List[PPEItem]
+    noise_db: int = 0
+    airborne_particles_ppm: float = 0.0
+    supervisor: str = ""
+    shift: str = ""                # "Day" | "Swing" | "Night"
+    incident_flag: bool = False
+    ppe_required: List[PPEItem] = []
 
 
 class PPERecommendationRequest(BaseModel):
