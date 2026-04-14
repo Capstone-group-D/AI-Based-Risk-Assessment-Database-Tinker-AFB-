@@ -19,7 +19,7 @@
  */
 
 import { useState, useEffect } from 'react'
-import { fetchSafetyRecords } from '../api/hazmat'
+import { fetchSafetyRecords, analyzeTask } from '../api/hazmat'
 import './Dashboard.css'
 
 // Exposure level colors — matches db/schema.sql CHECK constraint values
@@ -64,10 +64,28 @@ export default function Dashboard() {
     return () => { cancelled = true }
   }, [])
 
+  // ── Analysis state ────────────────────────────────────────────────────────────
+  const [analysisLoading, setAnalysisLoading] = useState(false)
+  const [analysisResult, setAnalysisResult] = useState(null)
+  const [analysisError, setAnalysisError] = useState(null)
+
   // ── Form submit ─────────────────────────────────────────────────────────────
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Future: POST to /api/v1/recommend-ppe with { task_description, severity }
+    setAnalysisError(null)
+    setAnalysisResult(null)
+    setAnalysisLoading(true)
+
+    try {
+      const result = await analyzeTask(taskDescription, severity)
+      setAnalysisResult(result)
+    } catch (err) {
+      const msg = err.response?.data?.detail 
+        || (err.response ? `API error ${err.response.status}` : 'Could not reach the backend API.')
+      setAnalysisError(msg)
+    } finally {
+      setAnalysisLoading(false)
+    }
   }
 
   // ── Render ──────────────────────────────────────────────────────────────────
@@ -112,6 +130,56 @@ export default function Dashboard() {
           </button>
         </div>
       </form>
+
+      {/* ── Section 1.5: Task Analysis Results ─────────────────────────────── */}
+      {analysisLoading && <div className="loading-card"><span className="loading-spinner" />Analyzing intent and matching hazards...</div>}
+      {analysisError && <div className="error-card"><span className="error-icon">!</span>{analysisError}</div>}
+      
+      {analysisResult && (
+        <div className="analysis-result-card">
+          <div className="analysis-header">
+            <h3>AI Analysis Recommendation</h3>
+            <span className="severity-badge" style={{ color: EXPOSURE_COLOR[analysisResult.severity_basis] }}>
+              Severity Basis: {analysisResult.severity_basis}
+            </span>
+          </div>
+          
+          <div className="analysis-grid">
+            <div className="analysis-col">
+              <h4>Required Personal Protective Equipment</h4>
+              {analysisResult.ppe_recommendations.length > 0 ? (
+                <ul className="recommendations-list">
+                  {analysisResult.ppe_recommendations.map(ppe => (
+                    <li key={ppe.ppe_id}>
+                      <strong>{ppe.ppe_type}</strong> <span className="cat-chip">({ppe.ppe_category})</span>
+                      <p className="rationale-text">{ppe.rationale}</p>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="empty-text">No PPE required for this task.</p>
+              )}
+            </div>
+
+            <div className="analysis-col">
+              <h4>Engineering Controls & Protocols</h4>
+              {analysisResult.engineering_controls.length > 0 ? (
+                <ul className="recommendations-list">
+                  {analysisResult.engineering_controls.map(ec => (
+                    <li key={ec.control_type}>
+                      <strong>{ec.control_type}</strong>
+                      <p className="rationale-text">{ec.rationale}</p>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="empty-text">No specific physical controls required.</p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
 
       {/* ── Section 2: Safety Records ──────────────────────────────────────── */}
       <div className="hazmat-section">

@@ -25,3 +25,11 @@ export async function checkHealth() {
   const response = await client.get('/api/v1/health')
   return response.data
 }
+
+export async function analyzeTask(taskDescription, severityLevel = "Medium") {
+  const response = await client.post("/api/v1/analyze-task", {
+    task_description: taskDescription,
+    severity_level: severityLevel === "Medium" ? "Moderate" : severityLevel
+  })
+  return response.data
+}

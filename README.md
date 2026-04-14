@@ -57,15 +57,29 @@ Given hazard characteristics (type, severity, exposure route), the system recomm
 
 #### Prerequisites
 - Python 3.10+
+- PostgreSQL (if running real database)
 
 #### Setup & Start
 ```bash
 cd api
+python3 -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
+pip install -r requirements-dev.txt
 uvicorn main:app --reload --port 8000
 ```
+
+#### Seeding the Database
+To populate the Postgres database with the full 27,000 records of AUL data:
+```bash
+# Ensure PostgreSQL is running and credentials match .env
+cd api/db
+python3 import_aul.py
+```
+
 API available at http://localhost:8000
 Interactive docs at http://localhost:8000/docs
+PPE Recommendations Endpoint: `POST /api/recommend-ppe`
 
 ### Frontend (React + Vite)
 
