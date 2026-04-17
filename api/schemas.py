@@ -1,4 +1,4 @@
-from typing import List, Dict, Optional
+from typing import List, Dict, Optional, Literal
 from pydantic import BaseModel, model_validator
 
 
@@ -58,3 +58,27 @@ class PPERecommendationResponse(BaseModel):
     severity_basis: str
     ppe_recommendations: List[RecommendedPPEItem]
     engineering_controls: List[EngineeringControlItem]
+
+
+class TaskAnalysisResponse(PPERecommendationResponse):
+    assessment_id: str
+
+
+class AIFeedbackCreate(BaseModel):
+    assessment_id: str
+    feedback_type: Literal["thumbs_up", "thumbs_down", "report_inaccuracy"]
+    comment: Optional[str] = None
+
+    @model_validator(mode="after")
+    def validate_feedback(self):
+        if self.feedback_type == "report_inaccuracy" and not (self.comment and self.comment.strip()):
+            raise ValueError("comment is required when feedback_type is report_inaccuracy")
+        if self.comment is not None and len(self.comment) > 2000:
+            raise ValueError("comment must be 2000 characters or fewer")
+        return self
+
+
+class AIFeedbackCreated(BaseModel):
+    feedback_id: str
+    assessment_id: str
+    created_at: str

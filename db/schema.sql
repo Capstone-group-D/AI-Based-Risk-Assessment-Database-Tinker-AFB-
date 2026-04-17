@@ -128,3 +128,30 @@ CREATE TABLE IF NOT EXISTS material_authorizations (
 
 CREATE INDEX IF NOT EXISTS idx_matauth_shop_code ON material_authorizations(shop_code);
 CREATE INDEX IF NOT EXISTS idx_matauth_msn ON material_authorizations(msn);
+
+-- ============================================
+-- AI Assessment + Feedback Logging (MVP)
+-- Purpose: persist user feedback on AI responses for future refinement.
+-- ============================================
+
+-- Minimal parent record for each AI-generated response returned by /api/v1/analyze-task
+CREATE TABLE IF NOT EXISTS ai_assessments (
+    assessment_id TEXT PRIMARY KEY,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    task_description TEXT NOT NULL,
+    response_json TEXT NOT NULL
+);
+
+-- Feedback submitted from the frontend AI Response box
+CREATE TABLE IF NOT EXISTS ai_feedback (
+    feedback_id TEXT PRIMARY KEY,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    assessment_id TEXT NOT NULL REFERENCES ai_assessments(assessment_id) ON DELETE CASCADE,
+    feedback_type TEXT NOT NULL CHECK (
+        feedback_type IN ('thumbs_up', 'thumbs_down', 'report_inaccuracy')
+    ),
+    comment TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_ai_feedback_assessment_id ON ai_feedback(assessment_id);
+CREATE INDEX IF NOT EXISTS idx_ai_feedback_created_at ON ai_feedback(created_at);

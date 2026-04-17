@@ -33,3 +33,12 @@ export async function analyzeTask(taskDescription, severityLevel = "Medium") {
   })
   return response.data
 }
+
+export async function submitAIFeedback({ assessmentId, feedbackType, comment }) {
+  const response = await client.post("/api/v1/ai-feedback", {
+    assessment_id: assessmentId,
+    feedback_type: feedbackType,
+    comment,
+  })
+  return response.data
+}

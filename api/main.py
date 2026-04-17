@@ -11,6 +11,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from core.config import settings
 from routers.safety_records import router as safety_records_router
+from routers.feedback import router as feedback_router
 
 
 app = FastAPI(
@@ -29,3 +30,4 @@ app.add_middleware(
 
 
 app.include_router(safety_records_router)
+app.include_router(feedback_router)
