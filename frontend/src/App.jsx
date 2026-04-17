@@ -15,6 +15,7 @@
  *
  * Currently active pages:
  *   - 'dashboard'   → Dashboard component (task hazard analysis form)
+ *   - 'analytics'   → Analytics component (Sprint 3)
  *   - 'assessments' → Placeholder (Sprint 2)
  *   - 'ppe-guide'   → Placeholder (Sprint 2)
  */
@@ -23,6 +24,7 @@ import { useState } from 'react'
 import Sidebar from './components/Sidebar'
 import Header from './components/Header'
 import Dashboard from './components/Dashboard'
+import Analytics from './components/Analytics'
 import './App.css'
 
 function App() {
@@ -51,6 +53,8 @@ function App() {
             <p>Complete PPE reference catalog — coming in Sprint 3.</p>
           </div>
         )
+      case 'analytics':
+        return <Analytics />
       default:
         return <Dashboard />
     }

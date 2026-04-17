@@ -22,6 +22,7 @@ import './Sidebar.css'
 // Each nav item needs an id (used for routing), a display label, and an icon
 const NAV_ITEMS = [
   { id: 'dashboard', label: 'Dashboard', icon: '⬡' },
+  { id: 'analytics', label: 'Analytics', icon: '◈' },
   { id: 'assessments', label: 'Risk Assessments', icon: '⬢' },
   { id: 'ppe-guide', label: 'PPE Guide', icon: '⬣' },
 ]
