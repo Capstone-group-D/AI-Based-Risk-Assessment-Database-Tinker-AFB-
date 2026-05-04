@@ -25,6 +25,7 @@ import Sidebar from './components/Sidebar'
 import Header from './components/Header'
 import Dashboard from './components/Dashboard'
 import Analytics from './components/Analytics'
+import PollutionPrevention from './components/PollutionPrevention'
 import './App.css'
 
 function App() {
@@ -55,6 +56,8 @@ function App() {
         )
       case 'analytics':
         return <Analytics />
+      case 'pollution-prevention':
+        return <PollutionPrevention />
       default:
         return <Dashboard />
     }
