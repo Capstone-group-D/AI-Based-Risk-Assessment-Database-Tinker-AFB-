@@ -730,4 +730,65 @@ INSERT INTO safety_record_docs (record_id, doc_id, doc_type) VALUES
 ('REC-1118','DOC-2295','Confined Space Permit'),
 ('REC-1119','DOC-2616','HAZMAT Report');
 
+-- Waste Categories seed data
+INSERT INTO waste_categories (waste_category_id, category_name, hazard_class, disposal_method, epa_code) VALUES
+('waste_solvent','Spent Solvents','Flammable','Recycling','D001'),
+('waste_oil','Used Oil','Flammable','Recycling','D001'),
+('waste_paint','Paint Waste','Toxic','Incineration','D001'),
+('waste_battery','Lead-acid Batteries','Toxic','Recycling','D008'),
+('waste_filter','Oil Filters','Toxic','Recycling','D009'),
+('waste_coolant','Spent Coolant','Toxic','Recycling','D002'),
+('waste_cleaning','Cleaning Wipes/Rags','Flammable','Incineration','D001'),
+('waste_metal','Scrap Metal','Non-hazardous','Recycling',NULL),
+('waste_tyres','Aircraft Tyres','Non-hazardous','Recycling',NULL),
+('waste_fuel','Fuel Contaminated Waste','Flammable','Incineration','D001');
+
+-- Waste Records seed data
+INSERT INTO waste_records (waste_record_id, date_generated, location, waste_category_id, quantity_kg, generator_name, process_type, container_type, storage_location, disposal_date, disposal_method, recycler_name, cost_usd, notes) VALUES
+('WASTE-001','2025-01-15','Engine Shop','waste_solvent',25.5,'TSgt Rivera','Engine Wash','5-gallon pail','Hazardous Storage Room A','2025-01-20','Recycling','Clean Harbors',150.00,'Methyl ethyl ketone solvent from F119 engine wash'),
+('WASTE-002','2025-02-03','Paint Booth','waste_paint',12.8,'Capt Howard','Aircraft Painting','1-gallon can','Hazardous Storage Room B','2025-02-10','Incineration','Veolia',200.00,'Epoxy primer waste from F-35 maintenance'),
+('WASTE-003','2025-02-18','Fuel Cell Shop','waste_oil',45.2,'MSgt Coleman','Fuel System Maintenance','55-gallon drum','Oil Storage Area','2025-02-25','Recycling','Safety-Kleen',75.00,'JP-8 contaminated oil from fuel pumps'),
+('WASTE-004','2025-03-07','Maintenance Bay 1','waste_filter',8.5,'Lt Brooks','Oil Change','Oil filter container','Parts Storage','2025-03-14','Recycling','Advanced Waste Solutions',25.00,'F119 engine oil filters'),
+('WASTE-005','2025-03-22','Engine Shop','waste_coolant',18.3,'TSgt Rivera','Cooling System Service','5-gallon pail','Hazardous Storage Room A','2025-03-28','Recycling','Clean Harbors',95.00,'Ethylene glycol coolant with corrosion inhibitors'),
+('WASTE-006','2025-04-10','Hangar A','waste_battery',156.0,'Civ Patel','Battery Replacement','Battery box','Battery Storage Area','2025-04-17','Recycling','Battery Solutions Inc',180.00,'Lead-acid batteries from ground support equipment'),
+('WASTE-007','2025-04-25','Paint Booth','waste_cleaning',3.2,'Capt Howard','Surface Preparation','Hazardous waste bag','Hazardous Storage Room B','2025-05-02','Incineration','Veolia',45.00,'Paint remover soaked rags'),
+('WASTE-008','2025-05-12','Maintenance Bay 2','waste_metal',234.5,'MSgt Coleman','Aircraft Repair','Scrap metal bin','Metal Recycling Area','2025-05-19','Recycling','MetalWorks Recycling',120.00,'Aluminum and titanium scrap from F-35 repairs'),
+('WASTE-009','2025-06-01','Flight Line','waste_tyres',89.6,'Lt Brooks','Tyre Replacement','Tyre rack','Tyre Storage','2025-06-08','Recycling','TyreCycle Inc',65.00,'Aircraft tyres from C-130 fleet'),
+('WASTE-010','2025-06-15','Fuel Cell Shop','waste_fuel',7.8,'TSgt Rivera','Fuel Leak Cleanup','Absorbent pads','Hazardous Storage Room A','2025-06-22','Incineration','Clean Harbors',110.00,'Fuel contaminated absorbent materials');
+
+-- Recycling Opportunities seed data
+INSERT INTO recycling_opportunities (opportunity_id, waste_category_id, opportunity_name, description, recycler_contact, estimated_value_per_kg, environmental_impact, is_active) VALUES
+('REC-OPP-001','waste_solvent','Solvent Recovery','Distillation and purification of spent solvents for reuse','Clean Harbors - (405) 555-0123',2.50,'Reduces hazardous waste volume by 80%, eliminates incineration needs','TRUE'),
+('REC-OPP-002','waste_oil','Oil Re-refining','Processing used oil into base oil for new lubricant production','Safety-Kleen - (405) 555-0456',0.80,'Prevents soil and water contamination, recovers valuable resources','TRUE'),
+('REC-OPP-003','waste_filter','Filter Crushing','Crushing and draining oil filters for metal recovery','Advanced Waste Solutions - (405) 555-0789',1.20,'Reduces landfill waste, recovers steel and oil','TRUE'),
+('REC-OPP-004','waste_battery','Battery Recycling','Breaking down batteries for lead and plastic recovery','Battery Solutions Inc - (405) 555-0321',0.60,'Prevents heavy metal leaching into groundwater','TRUE'),
+('REC-OPP-005','waste_metal','Metal Scrap Recycling','Sorting and processing aircraft metal scrap','MetalWorks Recycling - (405) 555-0654',1.80,'Conserves natural resources, reduces mining impacts','TRUE'),
+('REC-OPP-006','waste_tyres','Tyre Recycling','Shredding and processing for rubber crumb and steel recovery','TyreCycle Inc - (405) 555-0987',0.40,'Prevents illegal dumping, creates useful rubber products','TRUE');
+
+-- Pollution Prevention Opportunities seed data
+INSERT INTO pollution_prevention_opportunities (opportunity_id, task_name, task_description, waste_category_id, prevention_method, expected_reduction_percent, implementation_cost_usd, payback_period_months, priority_level, responsible_party, status, notes) VALUES
+('PREV-001','Engine Wash','Cleaning of F119 and F135 jet engines after maintenance','waste_solvent','Implement aqueous cleaning system with biodegradable detergents',75.00,25000.00,8,'High','Engine Shop Supervisor','Identified','Replace solvent-based cleaning with water-based system. Requires new equipment purchase and operator training.'),
+('PREV-002','Aircraft Painting','Application of corrosion-resistant coatings to aircraft surfaces','waste_paint','Adopt high-volume low-pressure (HVLP) spray guns and paint recycling system',60.00,15000.00,6,'High','Paint Shop Lead','Planned','HVLP reduces overspray by 40%, recycling system captures and reuses unused paint.'),
+('PREV-003','Fuel System Maintenance','Servicing and repair of aircraft fuel systems','waste_oil','Install oil/water separators and implement drip pans',85.00,8000.00,4,'Medium','Fuel Systems Team','Implementing','Separators prevent oil contamination of wastewater, drip pans catch leaks during maintenance.'),
+('PREV-004','Oil Changes','Regular oil changes on aircraft engines and auxiliary power units','waste_filter','Switch to synthetic oil filters that drain completely',30.00,2000.00,12,'Low','Maintenance Operations','Identified','Synthetic filters reduce residual oil waste compared to cellulose filters.'),
+('PREV-005','Cooling System Service','Maintenance of engine cooling systems','waste_coolant','Implement extended-life coolant and recycling program',50.00,5000.00,10,'Medium','Engine Shop Supervisor','Identified','Extended-life coolant lasts 2-3 times longer, recycling recovers 90% of used coolant.'),
+('PREV-006','Battery Replacement','Replacing lead-acid batteries in ground support equipment','waste_battery','Transition to lithium-ion batteries with recycling program',90.00,50000.00,24,'High','Electrical Shop','Planned','Lithium-ion batteries last longer and are more easily recycled than lead-acid.'),
+('PREV-007','Parts Cleaning','Cleaning of aircraft components and tools','waste_cleaning','Use reusable microfiber cloths instead of disposable wipes',40.00,1500.00,3,'Low','Parts Room Supervisor','Completed','Microfiber cloths can be washed and reused, reducing waste generation.'),
+('PREV-008','Surface Preparation','Preparing surfaces for painting or bonding','waste_solvent','Implement laser ablation for paint stripping',95.00,75000.00,18,'Critical','Paint Shop Lead','Identified','Laser ablation eliminates chemical solvents entirely, produces only dust waste.'),
+('PREV-009','Fuel Leak Cleanup','Responding to and cleaning up fuel spills','waste_fuel','Deploy absorbent booms and spill prevention kits',70.00,3000.00,2,'High','Fuel Systems Team','Implementing','Prevention kits reduce response time and contain spills before they spread.'),
+('PREV-010','Tyre Replacement','Replacing worn aircraft tyres','waste_tyres','Implement tyre retreading program',80.00,12000.00,15,'Medium','Ground Support','Identified','Retreading extends tyre life by 50%, significantly reducing waste generation.');
+
+-- Task-Waste Relationships seed data
+INSERT INTO task_waste_relationships (task_name, waste_category_id, average_quantity_kg, frequency) VALUES
+('Engine Wash','waste_solvent',15.0,'Weekly'),
+('Aircraft Painting','waste_paint',8.0,'Daily'),
+('Fuel System Maintenance','waste_oil',25.0,'Weekly'),
+('Oil Changes','waste_filter',5.0,'Daily'),
+('Cooling System Service','waste_coolant',10.0,'Monthly'),
+('Battery Replacement','waste_battery',80.0,'Monthly'),
+('Parts Cleaning','waste_cleaning',2.0,'Daily'),
+('Surface Preparation','waste_solvent',12.0,'Weekly'),
+('Fuel Leak Cleanup','waste_fuel',4.0,'As needed'),
+('Tyre Replacement','waste_tyres',45.0,'Monthly');
+
 COMMIT;

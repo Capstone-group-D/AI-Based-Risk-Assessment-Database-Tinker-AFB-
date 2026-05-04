@@ -26,6 +26,7 @@ import Header from './components/Header'
 import Dashboard from './components/Dashboard'
 import Analytics from './components/Analytics'
 import AIFeedbackPanel from './components/AIFeedbackPanel'
+import PollutionPrevention from './components/PollutionPrevention'
 import './App.css'
 
 function App() {
@@ -60,6 +61,8 @@ function App() {
         return <Analytics />
       case 'ai-feedback':
         return <AIFeedbackPanel />
+      case 'pollution-prevention':
+        return <PollutionPrevention />
       default:
         return <Dashboard />
     }

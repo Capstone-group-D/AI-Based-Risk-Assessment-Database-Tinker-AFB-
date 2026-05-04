@@ -19,7 +19,7 @@
  */
 
 import { useState, useEffect } from 'react'
-import { fetchSafetyRecords, analyzeTask } from '../api/hazmat'
+import { fetchSafetyRecords, analyzeTask, submitAIFeedback } from '../api/hazmat'
 import './Dashboard.css'
 
 // Exposure level colors — matches db/schema.sql CHECK constraint values
@@ -69,12 +69,23 @@ export default function Dashboard() {
   const [analysisResult, setAnalysisResult] = useState(null)
   const [analysisError, setAnalysisError] = useState(null)
 
+  // ── Feedback state (AI Response box) ────────────────────────────────────────
+  const [feedbackSubmitting, setFeedbackSubmitting] = useState(false)
+  const [feedbackError, setFeedbackError] = useState(null)
+  const [feedbackSuccess, setFeedbackSuccess] = useState(null)
+  const [reportOpen, setReportOpen] = useState(false)
+  const [reportComment, setReportComment] = useState('')
+
   // ── Form submit ─────────────────────────────────────────────────────────────
   const handleSubmit = async (e) => {
     e.preventDefault()
     setAnalysisError(null)
     setAnalysisResult(null)
     setAnalysisLoading(true)
+    setFeedbackError(null)
+    setFeedbackSuccess(null)
+    setReportOpen(false)
+    setReportComment('')
 
     try {
       const result = await analyzeTask(taskDescription, severity)
@@ -85,6 +96,35 @@ export default function Dashboard() {
       setAnalysisError(msg)
     } finally {
       setAnalysisLoading(false)
+    }
+  }
+
+  const handleFeedback = async ({ feedbackType, comment }) => {
+    const assessmentId = analysisResult?.assessment_id
+    if (!assessmentId || feedbackSubmitting) return
+
+    setFeedbackSubmitting(true)
+    setFeedbackError(null)
+    setFeedbackSuccess(null)
+
+    try {
+      await submitAIFeedback({
+        assessmentId,
+        feedbackType,
+        comment,
+      })
+
+      if (feedbackType === 'thumbs_up') setFeedbackSuccess('Feedback saved: thumbs up.')
+      if (feedbackType === 'thumbs_down') setFeedbackSuccess('Feedback saved: thumbs down.')
+      if (feedbackType === 'report_inaccuracy') setFeedbackSuccess('Report submitted. Thanks for the correction.')
+      if (feedbackType !== 'report_inaccuracy') setReportOpen(false)
+      if (feedbackType === 'report_inaccuracy') setReportComment('')
+    } catch (err) {
+      const msg = err.response?.data?.detail
+        || (err.response ? `API error ${err.response.status}` : 'Could not reach the backend API.')
+      setFeedbackError(msg)
+    } finally {
+      setFeedbackSubmitting(false)
     }
   }
 
@@ -143,6 +183,72 @@ export default function Dashboard() {
               Severity Basis: {analysisResult.severity_basis}
             </span>
           </div>
+
+          <div className="ai-feedback-row">
+            <button
+              type="button"
+              className="ai-feedback-btn"
+              disabled={feedbackSubmitting || !analysisResult.assessment_id}
+              onClick={() => handleFeedback({ feedbackType: 'thumbs_up' })}
+            >
+              Thumbs Up
+            </button>
+            <button
+              type="button"
+              className="ai-feedback-btn"
+              disabled={feedbackSubmitting || !analysisResult.assessment_id}
+              onClick={() => handleFeedback({ feedbackType: 'thumbs_down' })}
+            >
+              Thumbs Down
+            </button>
+            <button
+              type="button"
+              className="ai-feedback-btn"
+              disabled={feedbackSubmitting || !analysisResult.assessment_id}
+              onClick={() => {
+                setFeedbackError(null)
+                setFeedbackSuccess(null)
+                setReportOpen((v) => !v)
+              }}
+            >
+              Report Inaccuracy
+            </button>
+          </div>
+
+          {feedbackSuccess && <div className="ai-feedback-status success">{feedbackSuccess}</div>}
+          {feedbackError && <div className="ai-feedback-status error">{feedbackError}</div>}
+
+          {reportOpen && (
+            <div className="ai-report-box">
+              <label className="input-label" htmlFor="ai-report-comment">What is inaccurate or missing?</label>
+              <textarea
+                id="ai-report-comment"
+                className="task-textarea"
+                rows={3}
+                value={reportComment}
+                onChange={(e) => setReportComment(e.target.value)}
+                placeholder="Example: The AI response is missing hearing protection due to grinding noise exposure..."
+              />
+              <div className="ai-report-actions">
+                <button
+                  type="button"
+                  className="submit-btn"
+                  disabled={feedbackSubmitting || !reportComment.trim()}
+                  onClick={() => handleFeedback({ feedbackType: 'report_inaccuracy', comment: reportComment })}
+                >
+                  Submit Report
+                </button>
+                <button
+                  type="button"
+                  className="ai-feedback-btn secondary"
+                  disabled={feedbackSubmitting}
+                  onClick={() => setReportOpen(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
           
           <div className="analysis-grid">
             <div className="analysis-col">

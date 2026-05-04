@@ -1,5 +1,8 @@
 from fastapi import APIRouter, HTTPException, Depends
 from typing import List, Dict
+import json
+import uuid
+from datetime import datetime
 from schemas import (
     SafetyRecord,
     PPEItem,
@@ -8,6 +11,7 @@ from schemas import (
     RecommendedPPEItem,
     EngineeringControlItem,
     PPERecommendationResponse,
+    TaskAnalysisResponse,
 )
 from db.session import get_db
 from nlp.analyzer import analyze_task_description
@@ -171,7 +175,21 @@ def recommend_ppe(payload: PPERecommendationRequest, db = Depends(get_db)):
         engineering_controls=list(engineering_controls.values()),
     )
 
-@router.post("/api/v1/analyze-task", response_model=PPERecommendationResponse)
+def _persist_ai_assessment(db, task_description: str, response: PPERecommendationResponse) -> str:
+    assessment_id = str(uuid.uuid4())
+    created_at = datetime.utcnow().isoformat()
+    db.execute(
+        """
+        INSERT INTO ai_assessments (assessment_id, created_at, task_description, response_json)
+        VALUES (?, ?, ?, ?)
+        """,
+        (assessment_id, created_at, task_description, json.dumps(response.model_dump())),
+    )
+    db.commit()
+    return assessment_id
+
+
+@router.post("/api/v1/analyze-task", response_model=TaskAnalysisResponse)
 def analyze_task(payload: TaskAnalysisRequest, db = Depends(get_db)):
     """
     Analyzes a natural language description to extract intent and forwards
@@ -189,17 +207,23 @@ def analyze_task(payload: TaskAnalysisRequest, db = Depends(get_db)):
     )
     
     try:
-        return recommend_ppe(req, db)
+        result = recommend_ppe(req, db)
+        assessment_id = _persist_ai_assessment(db, payload.task_description, result)
+        return TaskAnalysisResponse(assessment_id=assessment_id, **result.model_dump())
     except HTTPException:
         # Fallback to single dimension if combined matching returns 0 records
         if hazard_id and process_type:
             try:
                 fallback_req = PPERecommendationRequest(material_id=hazard_id, severity_level=payload.severity_level)
-                return recommend_ppe(fallback_req, db)
+                result = recommend_ppe(fallback_req, db)
+                assessment_id = _persist_ai_assessment(db, payload.task_description, result)
+                return TaskAnalysisResponse(assessment_id=assessment_id, **result.model_dump())
             except HTTPException:
                 try:
                     fallback_req = PPERecommendationRequest(process_type=process_type, severity_level=payload.severity_level)
-                    return recommend_ppe(fallback_req, db)
+                    result = recommend_ppe(fallback_req, db)
+                    assessment_id = _persist_ai_assessment(db, payload.task_description, result)
+                    return TaskAnalysisResponse(assessment_id=assessment_id, **result.model_dump())
                 except HTTPException:
                     raise
         raise
