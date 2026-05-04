@@ -26,6 +26,17 @@ export async function checkHealth() {
   return response.data
 }
 
+/**
+ * Submits a password to the admin login endpoint.
+ * Resolves on success, rejects with an error on 401.
+ * @param {string} password
+ * @returns {Promise<Object>}  e.g. { success: true }
+ */
+export async function adminLogin(password) {
+  const response = await client.post('/api/v1/admin/login', { password })
+  return response.data
+}
+
 export async function analyzeTask(taskDescription, severityLevel = "Medium") {
   const response = await client.post("/api/v1/analyze-task", {
     task_description: taskDescription,

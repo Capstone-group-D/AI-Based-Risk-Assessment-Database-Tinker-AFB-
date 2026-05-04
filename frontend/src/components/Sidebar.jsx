@@ -27,7 +27,9 @@ const NAV_ITEMS = [
   { id: 'ppe-guide', label: 'PPE Guide', icon: '⬣' },
 ]
 
-export default function Sidebar({ activePage, onNavigate }) {
+const ADMIN_NAV_ITEM = { id: 'ai-feedback', label: 'Admin Panel', icon: '◉' }
+
+export default function Sidebar({ activePage, onNavigate, isAdminUnlocked }) {
   return (
     <aside className="sidebar">
       {/* Brand section — project identity at the top of the sidebar */}
@@ -49,6 +51,15 @@ export default function Sidebar({ activePage, onNavigate }) {
             {item.label}
           </button>
         ))}
+        {isAdminUnlocked && (
+          <button
+            className={`sidebar-link admin-nav-item ${activePage === ADMIN_NAV_ITEM.id ? 'active' : ''}`}
+            onClick={() => onNavigate(ADMIN_NAV_ITEM.id)}
+          >
+            <span className="sidebar-icon">{ADMIN_NAV_ITEM.icon}</span>
+            {ADMIN_NAV_ITEM.label}
+          </button>
+        )}
       </nav>
 
       {/* Footer — displays current sprint and version number */}

@@ -25,11 +25,14 @@ import Sidebar from './components/Sidebar'
 import Header from './components/Header'
 import Dashboard from './components/Dashboard'
 import Analytics from './components/Analytics'
+import AIFeedbackPanel from './components/AIFeedbackPanel'
 import './App.css'
 
 function App() {
   // Tracks which page is currently displayed — matches the 'id' values in Sidebar's NAV_ITEMS
   const [activePage, setActivePage] = useState('dashboard')
+  // Unlocked by entering the correct admin password in the Header modal
+  const [isAdminUnlocked, setIsAdminUnlocked] = useState(false)
 
   /**
    * Renders the correct page component based on activePage state.
@@ -55,6 +58,8 @@ function App() {
         )
       case 'analytics':
         return <Analytics />
+      case 'ai-feedback':
+        return <AIFeedbackPanel />
       default:
         return <Dashboard />
     }
@@ -63,11 +68,11 @@ function App() {
   return (
     <div className="app-layout">
       {/* Left sidebar — navigation menu, passes activePage down and receives page changes back */}
-      <Sidebar activePage={activePage} onNavigate={setActivePage} />
+      <Sidebar activePage={activePage} onNavigate={setActivePage} isAdminUnlocked={isAdminUnlocked} />
 
       {/* Right side — header bar on top, active page content below */}
       <div className="app-main">
-        <Header />
+        <Header isAdminUnlocked={isAdminUnlocked} onAdminUnlock={() => setIsAdminUnlocked(true)} />
         <main className="app-content">
           {renderPage()}
         </main>

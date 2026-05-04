@@ -1,0 +1,131 @@
+.ai-feedback-panel {
+  padding: 32px;
+  max-width: 900px;
+}
+
+.afp-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 32px;
+}
+
+.afp-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.2rem;
+  color: #e0e0e0;
+  margin: 0;
+}
+
+.afp-badge {
+  font-size: 0.65rem;
+  font-family: 'IBM Plex Mono', monospace;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: #1e2028;
+  border: 1px solid #3b82f6;
+  color: #3b82f6;
+  letter-spacing: 0.3px;
+}
+
+.afp-section {
+  background: #1a1d24;
+  border: 1px solid #2a2d35;
+  border-radius: 10px;
+  padding: 24px;
+  margin-bottom: 20px;
+}
+
+.afp-section-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.85rem;
+  color: #e0e0e0;
+  margin: 0 0 6px 0;
+}
+
+.afp-section-desc {
+  font-size: 0.72rem;
+  color: #6b7280;
+  margin: 0 0 16px 0;
+}
+
+.afp-section-desc code {
+  font-family: 'IBM Plex Mono', monospace;
+  color: #94a3b8;
+}
+
+.afp-loading,
+.afp-error {
+  font-size: 0.78rem;
+  color: #6b7280;
+}
+
+.afp-error {
+  color: #f87171;
+}
+
+.afp-table-wrapper {
+  overflow-x: auto;
+}
+
+.afp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+}
+
+.afp-table th {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  color: #6b7280;
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid #2a2d35;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.afp-table td {
+  padding: 8px 12px;
+  color: #c0c0c0;
+  border-bottom: 1px solid #12141a;
+}
+
+.afp-table tr:last-child td {
+  border-bottom: none;
+}
+
+.afp-empty {
+  color: #6b7280;
+  text-align: center;
+  padding: 16px !important;
+}
+
+.afp-stub {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  background: #12141a;
+  border: 1px dashed #2a2d35;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  color: #6b7280;
+}
+
+.afp-stub-icon {
+  color: #3b82f6;
+  font-size: 1rem;
+}
+
+/* Admin nav item highlight in sidebar */
+.admin-nav-item {
+  border-top: 1px solid #2a2d35;
+  margin-top: 8px;
+  padding-top: 8px;
+  color: #3b82f6 !important;
+}
+
+.admin-nav-item.active {
+  color: #fff !important;
+}

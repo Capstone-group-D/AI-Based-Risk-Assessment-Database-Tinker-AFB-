@@ -11,6 +11,9 @@ class Settings(BaseSettings):
     
     # CORS Settings
     BACKEND_CORS_ORIGINS: List[str] = ["http://localhost:3000"]
+
+    # Admin Settings
+    ADMIN_MASTER_PASSWORD: str = ""
     
     model_config = SettingsConfigDict(
         env_file=".env", 

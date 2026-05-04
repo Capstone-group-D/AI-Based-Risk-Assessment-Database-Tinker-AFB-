@@ -72,3 +72,123 @@
   0%, 100% { opacity: 1; }
   50% { opacity: 0.4; }
 }
+
+/* Admin Login Button */
+.admin-login-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.7rem;
+  padding: 5px 12px;
+  border-radius: 20px;
+  background: transparent;
+  border: 1px solid #3b82f6;
+  color: #3b82f6;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.admin-login-btn:hover {
+  background: #3b82f6;
+  color: #fff;
+}
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Modal Card */
+.modal-card {
+  background: #1a1d24;
+  border: 1px solid #2a2d35;
+  border-radius: 10px;
+  padding: 32px;
+  width: 360px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.modal-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1rem;
+  color: #e0e0e0;
+  margin: 0 0 6px 0;
+}
+
+.modal-subtitle {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin: 0 0 20px 0;
+}
+
+.modal-input {
+  width: 100%;
+  box-sizing: border-box;
+  background: #12141a;
+  border: 1px solid #2a2d35;
+  border-radius: 6px;
+  color: #e0e0e0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.85rem;
+  padding: 9px 12px;
+  outline: none;
+  margin-bottom: 8px;
+}
+
+.modal-input:focus {
+  border-color: #3b82f6;
+}
+
+.modal-error {
+  font-size: 0.72rem;
+  color: #f87171;
+  margin: 0 0 12px 0;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.modal-cancel-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  padding: 7px 16px;
+  border-radius: 6px;
+  background: transparent;
+  border: 1px solid #2a2d35;
+  color: #6b7280;
+  cursor: pointer;
+}
+
+.modal-cancel-btn:hover {
+  border-color: #6b7280;
+  color: #e0e0e0;
+}
+
+.modal-submit-btn {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  padding: 7px 16px;
+  border-radius: 6px;
+  background: #3b82f6;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+.modal-submit-btn:hover:not(:disabled) {
+  background: #2563eb;
+}
+
+.modal-submit-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
