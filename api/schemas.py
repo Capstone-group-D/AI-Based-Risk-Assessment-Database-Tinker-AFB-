@@ -51,6 +51,8 @@ class RecommendedPPEItem(BaseModel):
 class EngineeringControlItem(BaseModel):
     control_type: str
     rationale: str
+    control_id: Optional[str] = None
+    source: Optional[str] = None  # "TINKER" for Tinker AFB form items; None for generic
 
 
 class PPERecommendationResponse(BaseModel):
@@ -84,9 +86,7 @@ class AIFeedbackCreated(BaseModel):
     created_at: str
 
 
-# ======================
-# Waste Management Schemas
-# ======================
+# ─── Waste Management Schemas ─────────────────────────────────────────────────
 
 class WasteCategory(BaseModel):
     waste_category_id: str
@@ -150,3 +150,113 @@ class TaskWasteRelationship(BaseModel):
     waste_category_id: str
     average_quantity_kg: float
     frequency: str
+
+
+# ─── AI Assessment History ────────────────────────────────────────────────────
+
+class AIAssessmentSummary(BaseModel):
+    assessment_id: str
+    created_at: str
+    task_description: str
+    severity_basis: str
+    ppe_count: int
+    control_count: int
+
+
+class AIAssessmentDetail(BaseModel):
+    assessment_id: str
+    created_at: str
+    task_description: str
+    criteria: Dict[str, Optional[str]]
+    severity_basis: str
+    ppe_recommendations: List[RecommendedPPEItem]
+    engineering_controls: List[EngineeringControlItem]
+
+
+# ─── Reference Data ───────────────────────────────────────────────────────────
+
+class PPEReference(BaseModel):
+    ppe_id: str
+    ppe_label: str
+    ppe_category: str
+
+
+class HazardReference(BaseModel):
+    hazard_id: str
+    hazard_label: str
+    hazard_category: str
+
+
+# ─── AUL Materials ────────────────────────────────────────────────────────────
+
+class MaterialItem(BaseModel):
+    msn: str
+    noun: str
+    bulk_issue: bool
+
+
+class ShopItem(BaseModel):
+    shop_code: str
+    org_symbol: Optional[str] = None
+
+
+class MaterialAuthorizationItem(BaseModel):
+    id: int
+    msn: str
+    shop_code: str
+    process_name: Optional[str] = None
+    local_process_name: Optional[str] = None
+    dist_pct: Optional[float] = None
+    max_on_hand: Optional[int] = None
+
+
+# ─── Auth / User ─────────────────────────────────────────────────────────────
+
+class TokenResponse(BaseModel):
+    access_token: str
+    refresh_token: str
+    token_type: str = "bearer"
+    role: str
+    username: str
+    full_name: str
+
+
+class TokenRefreshRequest(BaseModel):
+    refresh_token: str
+
+
+class UserInfo(BaseModel):
+    username: str
+    full_name: str
+    role: str
+
+
+# ─── AUL-based PPE Recommendation ────────────────────────────────────────────
+
+class MaterialPPERequest(BaseModel):
+    msn: str
+    severity_level: Optional[Literal["Low", "Moderate", "High", "Severe"]] = "Moderate"
+
+
+class MaterialPPEResponse(PPERecommendationResponse):
+    msn: str
+    material_name: str
+    matched_hazard_label: Optional[str] = None
+    authorized_shops: List[str] = []
+
+
+# ─── Safety Record Creation ───────────────────────────────────────────────────
+
+class SafetyRecordCreate(BaseModel):
+    date: str
+    location: str
+    work_type: str
+    hazard_id: str
+    exposure_level: Literal["Low", "Moderate", "High", "Severe"]
+    temperature_f: Optional[int] = None
+    noise_db: Optional[int] = None
+    airborne_particles_ppm: Optional[float] = None
+    supervisor: Optional[str] = None
+    shift: Optional[Literal["Day", "Swing", "Night"]] = None
+    incident_flag: bool = False
+    ppe_ids: List[str] = []

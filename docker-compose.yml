@@ -1,0 +1,41 @@
+services:
+  # ── FastAPI Backend ──────────────────────────────────────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    container_name: ras_api
+    restart: unless-stopped
+    environment:
+      # Set API_KEY to require X-API-Key header on all data routes (optional)
+      API_KEY: ${API_KEY:-}
+      # Set JWT_SECRET_KEY to enable user login with roles (optional)
+      # Generate a secret: openssl rand -hex 32
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-}
+    volumes:
+      # Persist the SQLite database across container restarts
+      - db_data:/app/risk_assessment.db
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: ["CMD-SHELL", "python3 -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/health')\""]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  # ── React Frontend (nginx) ───────────────────────────────────────────────────
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    container_name: ras_frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  db_data:

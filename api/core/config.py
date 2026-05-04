@@ -8,7 +8,13 @@ class Settings(BaseSettings):
     
     # Database Settings
     DATABASE_URL: str = ""  # Keeping it empty for now until DB is fully connected
-    
+
+    # API Key — set in .env to enable key-based auth; empty string disables auth (dev mode)
+    API_KEY: str = ""
+
+    # JWT — set to a long random string to enable JWT user auth; empty disables JWT
+    JWT_SECRET_KEY: str = ""
+
     # CORS Settings
     BACKEND_CORS_ORIGINS: List[str] = ["http://localhost:3000"]
 

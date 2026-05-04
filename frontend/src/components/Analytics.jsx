@@ -1,33 +1,29 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import {
+  Chart,
+  LineController, BarController, DoughnutController,
+  LineElement, BarElement, ArcElement,
+  CategoryScale, LinearScale,
+  PointElement,
+  Tooltip, Legend, Filler,
+} from 'chart.js'
 import { fetchSafetyRecords } from '../api/hazmat'
 import './Analytics.css'
 
-const CHART_JS_CDN = 'https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js'
+// Must register both the controllers (line/bar/doughnut) AND the elements they use
+Chart.register(
+  LineController, BarController, DoughnutController,
+  LineElement, BarElement, ArcElement,
+  CategoryScale, LinearScale,
+  PointElement,
+  Tooltip, Legend, Filler,
+)
 
 const DATE_FILTERS = [
   { id: 'all', label: 'All Time' },
   { id: '180', label: 'Last 180 Days' },
   { id: '90', label: 'Last 90 Days' },
 ]
-
-let chartLoaderPromise = null
-
-function ensureChartJs() {
-  if (window.Chart) return Promise.resolve(window.Chart)
-
-  if (!chartLoaderPromise) {
-    chartLoaderPromise = new Promise((resolve, reject) => {
-      const script = document.createElement('script')
-      script.src = CHART_JS_CDN
-      script.async = true
-      script.onload = () => resolve(window.Chart)
-      script.onerror = () => reject(new Error('Failed to load Chart.js from CDN.'))
-      document.head.appendChild(script)
-    })
-  }
-
-  return chartLoaderPromise
-}
 
 function toDate(value) {
   const date = new Date(value)
@@ -152,9 +148,8 @@ export default function Analytics() {
   useEffect(() => {
     let mounted = true
 
-    const drawCharts = async () => {
+    const drawCharts = () => {
       try {
-        const Chart = await ensureChartJs()
         if (!mounted) return
 
         Object.values(chartInstances.current).forEach((chart) => {
@@ -271,6 +266,7 @@ export default function Analytics() {
     }
 
     drawCharts()
+
 
     return () => {
       mounted = false

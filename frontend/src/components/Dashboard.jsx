@@ -33,7 +33,7 @@ const EXPOSURE_COLOR = {
 export default function Dashboard() {
   // ── Form state ─────────────────────────────────────────────────────────────
   const [taskDescription, setTaskDescription] = useState('')
-  const [severity, setSeverity] = useState('Medium')
+  const [severity, setSeverity] = useState('Moderate')
 
   // ── Safety records state ────────────────────────────────────────────────────
   const [records, setRecords]   = useState([])
@@ -138,7 +138,7 @@ export default function Dashboard() {
         <p>Describe the work task below. The system will identify hazards and recommend required PPE.</p>
       </div>
 
-      <form className="input-card" onSubmit={handleSubmit}>
+      <form className="input-card" onSubmit={handleSubmit} aria-label="Task hazard analysis form">
         <label className="input-label" htmlFor="task-input">Task Description</label>
         <textarea
           id="task-input"
@@ -159,9 +159,9 @@ export default function Dashboard() {
               onChange={(e) => setSeverity(e.target.value)}
             >
               <option value="Low">Low</option>
-              <option value="Medium">Medium</option>
+              <option value="Moderate">Moderate</option>
               <option value="High">High</option>
-              <option value="Critical">Critical</option>
+              <option value="Severe">Severe</option>
             </select>
           </div>
 
@@ -172,11 +172,11 @@ export default function Dashboard() {
       </form>
 
       {/* ── Section 1.5: Task Analysis Results ─────────────────────────────── */}
-      {analysisLoading && <div className="loading-card"><span className="loading-spinner" />Analyzing intent and matching hazards...</div>}
-      {analysisError && <div className="error-card"><span className="error-icon">!</span>{analysisError}</div>}
+      {analysisLoading && <div className="loading-card" role="status" aria-live="polite"><span className="loading-spinner" aria-hidden="true" />Analyzing intent and matching hazards...</div>}
+      {analysisError && <div className="error-card" role="alert"><span className="error-icon" aria-hidden="true">!</span>{analysisError}</div>}
       
       {analysisResult && (
-        <div className="analysis-result-card">
+        <div className="analysis-result-card" role="region" aria-label="AI analysis recommendation">
           <div className="analysis-header">
             <h3>AI Analysis Recommendation</h3>
             <span className="severity-badge" style={{ color: EXPOSURE_COLOR[analysisResult.severity_basis] }}>
@@ -268,12 +268,17 @@ export default function Dashboard() {
             </div>
 
             <div className="analysis-col">
-              <h4>Engineering Controls & Protocols</h4>
+              <h4>Engineering Controls &amp; Protocols</h4>
               {analysisResult.engineering_controls.length > 0 ? (
                 <ul className="recommendations-list">
                   {analysisResult.engineering_controls.map(ec => (
-                    <li key={ec.control_type}>
-                      <strong>{ec.control_type}</strong>
+                    <li key={ec.control_type} className={ec.source === 'TINKER' ? 'tinker-control-item' : ''}>
+                      <div className="control-header">
+                        <strong>{ec.control_type}</strong>
+                        {ec.source === 'TINKER' && (
+                          <span className="tinker-badge" title="Required by Tinker AFB Risk Assessment Form">TINKER AFB FORM</span>
+                        )}
+                      </div>
                       <p className="rationale-text">{ec.rationale}</p>
                     </li>
                   ))}

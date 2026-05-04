@@ -7,3 +7,6 @@ psycopg2-binary==2.9.9
 spacy>=3.7.0
 thefuzz>=0.20.0
 python-Levenshtein>=0.23.0
+python-jose[cryptography]>=3.3.0
+passlib[bcrypt]>=1.7.4
+python-multipart>=0.0.9

@@ -32,7 +32,46 @@
 .header-right {
   display: flex;
   align-items: center;
+  gap: 14px;
 }
+
+.header-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-role-badge {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.62rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: #1e2028;
+  border: 1px solid #2a2d35;
+  border-radius: 10px;
+  padding: 2px 8px;
+}
+
+.header-username {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  color: #d1d5db;
+}
+
+.header-logout-btn {
+  background: none;
+  border: 1px solid #2a2d35;
+  border-radius: 5px;
+  padding: 4px 10px;
+  color: #9ca3af;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+
+.header-logout-btn:hover { border-color: #ff6b35; color: #ff6b35; }
 
 .header-status {
   display: flex;

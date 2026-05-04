@@ -1,19 +1,17 @@
 /**
  * Header.jsx — Top Header Bar
  *
- * Pings GET /api/v1/health on mount to determine backend connectivity,
- * then displays a live status indicator using the CSS classes already
- * defined in Header.css:
- *   .connected  → green  "System Online"
- *   .pending    → yellow "Connecting…"
- *   .offline    → red    "API Offline"
- *
- * Also renders an "Admin Login" button that opens a password modal.
- * On success, calls onAdminUnlock() to unlock the admin panel in App.jsx.
+ * Pings GET /api/v1/health on mount to show backend connectivity status.
+ * When JWT auth is active, also displays the logged-in user's name, role badge,
+ * and a Sign Out button.
+ * Also renders an "Admin Login" button that opens a password modal when the
+ * admin panel is not yet unlocked.
  *
  * Props:
- *   - isAdminUnlocked (bool): Hides the login button once unlocked.
- *   - onAdminUnlock (function): Called when the correct password is verified.
+ *   - currentUser (object|null): Logged-in JWT user ({ username, full_name, role }).
+ *   - onLogout (function|null): Called when Sign Out is clicked (null = hide button).
+ *   - isAdminUnlocked (bool): Hides the Admin Login button once unlocked.
+ *   - onAdminUnlock (function): Called when the correct admin password is verified.
  */
 
 import { useState, useEffect } from 'react'
@@ -26,7 +24,13 @@ const STATUS_LABEL = {
   offline:   'API Offline',
 }
 
-export default function Header({ isAdminUnlocked, onAdminUnlock }) {
+const ROLE_COLOR = {
+  supervisor: '#f97316',
+  analyst:    '#60a5fa',
+  viewer:     '#34d399',
+}
+
+export default function Header({ currentUser, onLogout, isAdminUnlocked, onAdminUnlock }) {
   const [status, setStatus] = useState('pending')
   const [showModal, setShowModal] = useState(false)
   const [password, setPassword] = useState('')
@@ -57,7 +61,7 @@ export default function Header({ isAdminUnlocked, onAdminUnlock }) {
     setLoginError('')
     try {
       await adminLogin(password)
-      onAdminUnlock()
+      if (onAdminUnlock) onAdminUnlock()
       closeModal()
     } catch {
       setLoginError('Invalid password. Please try again.')
@@ -68,21 +72,39 @@ export default function Header({ isAdminUnlocked, onAdminUnlock }) {
 
   return (
     <>
-      <header className="header">
-        {/* Left side — project title and subtitle */}
+      <header className="header" role="banner">
         <div className="header-left">
           <h1 className="header-title">PPE Recommendation Engine</h1>
           <span className="header-desc">AI-Based Risk Assessment Database — Tinker AFB</span>
         </div>
 
-        {/* Right side — status indicator and admin login button */}
         <div className="header-right">
+          {/* JWT user info + sign out */}
+          {currentUser && (
+            <div className="header-user">
+              <span
+                className="header-role-badge"
+                style={{ color: ROLE_COLOR[currentUser.role] ?? '#9ca3af' }}
+              >
+                {currentUser.role}
+              </span>
+              <span className="header-username">{currentUser.full_name || currentUser.username}</span>
+              {onLogout && (
+                <button className="header-logout-btn" onClick={onLogout} aria-label="Sign out">
+                  Sign Out
+                </button>
+              )}
+            </div>
+          )}
+
+          {/* Admin login button (hidden once unlocked) */}
           {!isAdminUnlocked && (
             <button className="admin-login-btn" onClick={openModal}>
               Admin Login
             </button>
           )}
-          <span className={`header-status ${status}`}>
+
+          <span className={`header-status ${status}`} aria-live="polite">
             <span className="status-dot" />
             {STATUS_LABEL[status]}
           </span>

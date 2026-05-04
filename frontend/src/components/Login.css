@@ -1,0 +1,162 @@
+.login-backdrop {
+  min-height: 100vh;
+  background: #12141a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.login-card {
+  background: #1a1d23;
+  border: 1px solid #2a2d35;
+  border-radius: 14px;
+  padding: 40px 36px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+/* Brand */
+.login-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 32px;
+}
+
+.login-logo {
+  font-size: 2rem;
+  color: #ff6b35;
+  line-height: 1;
+}
+
+.login-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #e0e0e0;
+  letter-spacing: 1px;
+}
+
+.login-subtitle {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.68rem;
+  color: #6b7280;
+  margin-top: 2px;
+}
+
+/* Form */
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.login-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.login-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.67rem;
+  font-weight: 600;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.login-input {
+  background: #12141a;
+  border: 1px solid #2a2d35;
+  border-radius: 7px;
+  padding: 11px 14px;
+  color: #e0e0e0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.88rem;
+  transition: border-color 0.15s;
+}
+
+.login-input:focus {
+  outline: none;
+  border-color: #ff6b35;
+}
+
+.login-error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 6px;
+  padding: 10px 14px;
+  color: #fca5a5;
+  font-size: 0.82rem;
+}
+
+.login-btn {
+  background: #ff6b35;
+  color: #fff;
+  border: none;
+  border-radius: 7px;
+  padding: 12px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+  margin-top: 4px;
+}
+
+.login-btn:hover:not(:disabled) { background: #e55a28; }
+.login-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* Role info */
+.login-roles-info {
+  border-top: 1px solid #2a2d35;
+  padding-top: 20px;
+}
+
+.login-roles-title {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #4b5563;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin: 0 0 12px 0;
+}
+
+.login-roles-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.login-role-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.role-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.role-name {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  min-width: 80px;
+}
+
+.role-desc {
+  font-size: 0.72rem;
+  color: #6b7280;
+  line-height: 1.5;
+}

@@ -77,7 +77,82 @@ textarea {
   color: #fff;
 }
 
-/* Custom scrollbar styling (Chrome/Edge/Safari) */
+/* ── Accessibility ─────────────────────────────────────────────────────────── */
+
+/* Visually hidden but accessible to screen readers (sr-only utility) */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Skip-to-main-content link — visible only on keyboard focus */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 8px;
+  z-index: 9999;
+  background: #ff6b35;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 0 0 6px 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.1s;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
+/* Consistent focus-visible ring across all interactive elements */
+:focus-visible {
+  outline: 2px solid #ff6b35;
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* Remove focus ring on mouse click (keep only for keyboard) */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ── Tinker AFB procedural control badge (shared across all pages) ─────── */
+.tinker-control-item {
+  border-left-color: #b45309 !important;
+  background-color: #fffbeb !important;
+}
+
+.control-header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.tinker-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background-color: #b45309;
+  color: #fff;
+  padding: 0.15rem 0.45rem;
+  border-radius: 3px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Custom scrollbar styling (Chrome/Edge/Safari) ──────────────────────── */
 ::-webkit-scrollbar {
   width: 6px;
 }

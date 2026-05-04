@@ -32,23 +32,24 @@ const ADMIN_NAV_ITEM = { id: 'ai-feedback', label: 'Admin Panel', icon: '◉' }
 
 export default function Sidebar({ activePage, onNavigate, isAdminUnlocked }) {
   return (
-    <aside className="sidebar">
+    <aside className="sidebar" aria-label="Application navigation">
       {/* Brand section — project identity at the top of the sidebar */}
       <div className="sidebar-brand">
-        <span className="sidebar-logo">◆</span>
+        <span className="sidebar-logo" aria-hidden="true">◆</span>
         <span className="sidebar-title">TINKER AFB</span>
         <span className="sidebar-subtitle">Risk Assessment</span>
       </div>
 
       {/* Navigation links — loops over NAV_ITEMS and highlights the active page */}
-      <nav className="sidebar-nav">
+      <nav className="sidebar-nav" aria-label="Main navigation">
         {NAV_ITEMS.map((item) => (
           <button
             key={item.id}
             className={`sidebar-link ${activePage === item.id ? 'active' : ''}`}
             onClick={() => onNavigate(item.id)}
+            aria-current={activePage === item.id ? 'page' : undefined}
           >
-            <span className="sidebar-icon">{item.icon}</span>
+            <span className="sidebar-icon" aria-hidden="true">{item.icon}</span>
             {item.label}
           </button>
         ))}
@@ -65,7 +66,7 @@ export default function Sidebar({ activePage, onNavigate, isAdminUnlocked }) {
 
       {/* Footer — displays current sprint and version number */}
       <div className="sidebar-footer">
-        <span className="sidebar-version">Sprint 2 — v0.2.0</span>
+        <span className="sidebar-version">Sprint 3 — v0.3.0</span>
       </div>
     </aside>
   )
