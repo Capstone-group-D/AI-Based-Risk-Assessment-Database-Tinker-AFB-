@@ -1,7 +1,7 @@
 /**
  * AIFeedbackPanel.jsx — Admin: AI Feedback Loop
  *
- * Sprint 3 placeholder for Ticket 2: AI Feedback Loop.
+ * Sprint 4 — AI Feedback Loop.
  * Sections:
  *   1. Recent Analysis Requests — pulls from /api/v1/safety-records
  *   2. Model Feedback Queue    — stub
@@ -28,7 +28,7 @@ export default function AIFeedbackPanel() {
     <div className="ai-feedback-panel">
       <div className="afp-header">
         <h2 className="afp-title">AI Feedback Loop</h2>
-        <span className="afp-badge">Sprint 3 — In Development</span>
+        <span className="afp-badge">Sprint 4</span>
       </div>
 
       {/* Section 1: Recent Analysis Requests */}
@@ -75,10 +75,6 @@ export default function AIFeedbackPanel() {
         <p className="afp-section-desc">
           Analyst corrections and confidence flags will appear here for model retraining review.
         </p>
-        <div className="afp-stub">
-          <span className="afp-stub-icon">◈</span>
-          <span>Coming in Sprint 3 — Ticket 2</span>
-        </div>
       </section>
 
       {/* Section 3: Retraining Log (stub) */}
@@ -87,10 +83,6 @@ export default function AIFeedbackPanel() {
         <p className="afp-section-desc">
           A history of model retraining runs, accuracy deltas, and deployment timestamps.
         </p>
-        <div className="afp-stub">
-          <span className="afp-stub-icon">◈</span>
-          <span>Coming in Sprint 3 — Ticket 2</span>
-        </div>
       </section>
     </div>
   )

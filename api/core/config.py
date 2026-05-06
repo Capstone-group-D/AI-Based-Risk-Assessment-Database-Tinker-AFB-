@@ -4,7 +4,7 @@ import json
 
 class Settings(BaseSettings):
     PROJECT_NAME: str = "PPE Recommendation Engine API"
-    VERSION: str = "0.1.0"
+    VERSION: str = "0.4.0"
     
     # Database Settings
     DATABASE_URL: str = ""  # Keeping it empty for now until DB is fully connected

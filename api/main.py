@@ -1,7 +1,7 @@
 """
 main.py — FastAPI Backend for AI-Based Risk Assessment Database
 
-Tinker AFB PPE Recommendation Engine — Sprint 3 API
+Tinker AFB PPE Recommendation Engine — Sprint 4 API
 
 Run with:
   uvicorn main:app --reload --port 8000
