@@ -35,9 +35,7 @@ def list_materials(q: Optional[str] = None, db=Depends(get_db)):
             (f"%{q}%", f"%{q}%"),
         ).fetchall()
     else:
-        rows = db.execute(
-            "SELECT msn, noun, bulk_issue FROM materials ORDER BY noun LIMIT 200"
-        ).fetchall()
+        rows = db.execute("SELECT msn, noun, bulk_issue FROM materials ORDER BY noun LIMIT 200").fetchall()
 
     return [MaterialItem(msn=r["msn"], noun=r["noun"], bulk_issue=bool(r["bulk_issue"])) for r in rows]
 
@@ -58,9 +56,7 @@ def get_material_authorizations(msn: str, db=Depends(get_db)):
 @router.get("/api/v1/shops", response_model=List[ShopItem])
 def list_shops(db=Depends(get_db)):
     """Returns all shops from the AUL reference table."""
-    rows = db.execute(
-        "SELECT shop_code, org_symbol FROM shops ORDER BY shop_code"
-    ).fetchall()
+    rows = db.execute("SELECT shop_code, org_symbol FROM shops ORDER BY shop_code").fetchall()
     return [ShopItem(**row) for row in rows]
 
 
@@ -78,9 +74,7 @@ def recommend_ppe_for_material(payload: MaterialPPERequest, db=Depends(get_db)):
     from schemas import PPERecommendationRequest
 
     # Fetch the material
-    mat_row = db.execute(
-        "SELECT msn, noun FROM materials WHERE msn = ?", (payload.msn,)
-    ).fetchone()
+    mat_row = db.execute("SELECT msn, noun FROM materials WHERE msn = ?", (payload.msn,)).fetchone()
     if not mat_row:
         raise HTTPException(status_code=404, detail=f"Material MSN '{payload.msn}' not found")
 
@@ -141,9 +135,13 @@ def recommend_ppe_for_material(payload: MaterialPPERequest, db=Depends(get_db)):
         # If combined fails, try dimensions separately
         if matched_hazard_id and best_process:
             try:
-                result = recommend_ppe(PPERecommendationRequest(material_id=matched_hazard_id, severity_level=payload.severity_level), db)
+                result = recommend_ppe(
+                    PPERecommendationRequest(material_id=matched_hazard_id, severity_level=payload.severity_level), db
+                )
             except HTTPException:
-                result = recommend_ppe(PPERecommendationRequest(process_type=best_process, severity_level=payload.severity_level), db)
+                result = recommend_ppe(
+                    PPERecommendationRequest(process_type=best_process, severity_level=payload.severity_level), db
+                )
         else:
             raise
 

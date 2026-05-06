@@ -130,72 +130,84 @@ TINKER_PROCEDURAL_CONTROLS_BY_HAZARD_ID: Dict[str, List[EngineeringControlItem]]
     # ── Lockout / Tagout ────────────────────────────────────────────────────
     "haz_electrical_mechanical_energy": [
         EngineeringControlItem(
-            control_id="ctl_form_493", source="TINKER",
+            control_id="ctl_form_493",
+            source="TINKER",
             control_type="LOTO — Form 493",
             rationale="Complete Tinker AFB Form 493 Lockout/Tagout before any maintenance on electrical or mechanical energy sources.",
         ),
         EngineeringControlItem(
-            control_id="ctl_depressure_drain", source="TINKER",
+            control_id="ctl_depressure_drain",
+            source="TINKER",
             control_type="LOTO — Depressure/Drain",
             rationale="Depressurize and drain all hydraulic and pneumatic lines before accessing equipment.",
         ),
     ],
     "haz_gravity_potential_energy": [
         EngineeringControlItem(
-            control_id="ctl_block_shore_all_suspended_loads", source="TINKER",
+            control_id="ctl_block_shore_all_suspended_loads",
+            source="TINKER",
             control_type="LOTO — Block/Shore all Suspended Loads",
             rationale="Block or shore all suspended loads to prevent uncontrolled lowering before working beneath them.",
         ),
         EngineeringControlItem(
-            control_id="ctl_crane_hoist_inspection", source="TINKER",
+            control_id="ctl_crane_hoist_inspection",
+            source="TINKER",
             control_type="Crane/Hoist Inspection",
             rationale="Perform pre-use inspection of crane and hoist equipment per Tinker AFB Material Handling Equipment requirements.",
         ),
         EngineeringControlItem(
-            control_id="ctl_rigging_sling_chain_inspection", source="TINKER",
+            control_id="ctl_rigging_sling_chain_inspection",
+            source="TINKER",
             control_type="Rigging Sling/Chain Inspection",
             rationale="Inspect all rigging slings and chains for damage, deformation, or wear before lifting operations.",
         ),
     ],
     "haz_heavy_load_secure": [
         EngineeringControlItem(
-            control_id="ctl_block_shore_all_suspended_loads", source="TINKER",
+            control_id="ctl_block_shore_all_suspended_loads",
+            source="TINKER",
             control_type="LOTO — Block/Shore all Suspended Loads",
             rationale="Block or shore all suspended loads before working in the load path or beneath them.",
         ),
         EngineeringControlItem(
-            control_id="ctl_crane_hoist_inspection", source="TINKER",
+            control_id="ctl_crane_hoist_inspection",
+            source="TINKER",
             control_type="Crane/Hoist Inspection",
             rationale="Perform pre-use inspection of all lifting equipment per Tinker AFB Material Handling Equipment protocol.",
         ),
         EngineeringControlItem(
-            control_id="ctl_rigging_sling_chain_inspection", source="TINKER",
+            control_id="ctl_rigging_sling_chain_inspection",
+            source="TINKER",
             control_type="Rigging Sling/Chain Inspection",
             rationale="Inspect rigging slings and chains for rated capacity and integrity before each lift.",
         ),
     ],
     "haz_machine_guards": [
         EngineeringControlItem(
-            control_id="ctl_form_493", source="TINKER",
+            control_id="ctl_form_493",
+            source="TINKER",
             control_type="LOTO — Form 493",
             rationale="Complete Tinker AFB LOTO Form 493 before removing or bypassing any machine guards for maintenance.",
         ),
     ],
     "haz_pinch_points": [
         EngineeringControlItem(
-            control_id="ctl_form_493", source="TINKER",
+            control_id="ctl_form_493",
+            source="TINKER",
             control_type="LOTO — Form 493",
             rationale="Complete Tinker AFB LOTO Form 493 to de-energize equipment with pinch-point hazards before maintenance.",
         ),
     ],
     "haz_reaction_pressure_vacuum": [
         EngineeringControlItem(
-            control_id="ctl_form_493", source="TINKER",
+            control_id="ctl_form_493",
+            source="TINKER",
             control_type="LOTO — Form 493",
             rationale="Complete Tinker AFB LOTO Form 493 before breaking into any pressurized system.",
         ),
         EngineeringControlItem(
-            control_id="ctl_depressure_drain", source="TINKER",
+            control_id="ctl_depressure_drain",
+            source="TINKER",
             control_type="LOTO — Depressure/Drain",
             rationale="Fully depressurize and drain lines before opening any pressurized or vacuum system.",
         ),
@@ -203,24 +215,28 @@ TINKER_PROCEDURAL_CONTROLS_BY_HAZARD_ID: Dict[str, List[EngineeringControlItem]]
     # ── Confined Space ──────────────────────────────────────────────────────
     "haz_congestion_tight_spaces": [
         EngineeringControlItem(
-            control_id="ctl_gas_test_required_for_all", source="TINKER",
+            control_id="ctl_gas_test_required_for_all",
+            source="TINKER",
             control_type="Confined Space — Gas Test (required for all)",
             rationale="Perform atmospheric gas test before entering any confined or tight space per Tinker AFB Confined Space requirements.",
         ),
         EngineeringControlItem(
-            control_id="ctl_non_permit_required", source="TINKER",
+            control_id="ctl_non_permit_required",
+            source="TINKER",
             control_type="Confined Space — Non-Permit Required",
             rationale="Evaluate whether the work area qualifies as Non-Permit Required; document per Tinker AFB procedures.",
         ),
         EngineeringControlItem(
-            control_id="ctl_permit_required", source="TINKER",
+            control_id="ctl_permit_required",
+            source="TINKER",
             control_type="Confined Space — Permit Required",
             rationale="If hazardous atmosphere or engulfment risk exists, obtain a Tinker AFB Permit-Required Confined Space entry permit.",
         ),
     ],
     "haz_ventilation_fumes_mist_dust": [
         EngineeringControlItem(
-            control_id="ctl_gas_test_required_for_all", source="TINKER",
+            control_id="ctl_gas_test_required_for_all",
+            source="TINKER",
             control_type="Confined Space — Gas Test (required for all)",
             rationale="Test atmosphere for O₂ content, flammables, and toxic gases before and during work in poorly ventilated areas.",
         ),
@@ -228,14 +244,16 @@ TINKER_PROCEDURAL_CONTROLS_BY_HAZARD_ID: Dict[str, List[EngineeringControlItem]]
     # ── Hot Work ────────────────────────────────────────────────────────────
     "haz_fire_explosion": [
         EngineeringControlItem(
-            control_id="ctl_standby_fire_watch", source="TINKER",
+            control_id="ctl_standby_fire_watch",
+            source="TINKER",
             control_type="Hot Work — Standby/Fire Watch",
             rationale="Assign a dedicated Fire Watch for all hot work per Tinker AFB Hot Work permit requirements.",
         ),
     ],
     "haz_hazardous_materials_exposure": [
         EngineeringControlItem(
-            control_id="ctl_gas_test_required_for_all", source="TINKER",
+            control_id="ctl_gas_test_required_for_all",
+            source="TINKER",
             control_type="Confined Space — Gas Test (required for all)",
             rationale="Verify atmospheric safety (O₂, LEL, toxics) when handling hazardous materials in confined or semi-enclosed spaces.",
         ),
@@ -243,43 +261,50 @@ TINKER_PROCEDURAL_CONTROLS_BY_HAZARD_ID: Dict[str, List[EngineeringControlItem]]
     # ── Vehicle Inspection ──────────────────────────────────────────────────
     "haz_fall_from_elevation": [
         EngineeringControlItem(
-            control_id="ctl_scissor_lift", source="TINKER",
+            control_id="ctl_scissor_lift",
+            source="TINKER",
             control_type="Vehicle Inspection — Scissor Lift",
             rationale="Complete pre-use scissor lift inspection per Tinker AFB Vehicle Inspection requirements before elevated work.",
         ),
         EngineeringControlItem(
-            control_id="ctl_boom_lift", source="TINKER",
+            control_id="ctl_boom_lift",
+            source="TINKER",
             control_type="Vehicle Inspection — Boom Lift",
             rationale="Complete pre-use boom lift inspection per Tinker AFB Vehicle Inspection requirements before elevated work.",
         ),
     ],
     "haz_climbing_crawling_bending": [
         EngineeringControlItem(
-            control_id="ctl_scissor_lift", source="TINKER",
+            control_id="ctl_scissor_lift",
+            source="TINKER",
             control_type="Vehicle Inspection — Scissor Lift",
             rationale="If a scissor lift is used to reach elevated work areas, complete the Tinker AFB pre-use vehicle inspection.",
         ),
         EngineeringControlItem(
-            control_id="ctl_boom_lift", source="TINKER",
+            control_id="ctl_boom_lift",
+            source="TINKER",
             control_type="Vehicle Inspection — Boom Lift",
             rationale="If a boom lift is used, complete the Tinker AFB pre-use vehicle inspection before operation.",
         ),
     ],
     "haz_path_of_travel": [
         EngineeringControlItem(
-            control_id="ctl_cart_mule_gator", source="TINKER",
+            control_id="ctl_cart_mule_gator",
+            source="TINKER",
             control_type="Vehicle Inspection — Cart/Mule/Gator",
             rationale="Perform pre-use inspection on all carts, mules, and gators in the work area per Tinker AFB Vehicle Inspection requirements.",
         ),
     ],
     "haz_overhead_work_falling_objects": [
         EngineeringControlItem(
-            control_id="ctl_crane_hoist_inspection", source="TINKER",
+            control_id="ctl_crane_hoist_inspection",
+            source="TINKER",
             control_type="Crane/Hoist Inspection",
             rationale="Inspect crane and hoist equipment before overhead lifting to prevent dropped-load incidents.",
         ),
         EngineeringControlItem(
-            control_id="ctl_rigging_sling_chain_inspection", source="TINKER",
+            control_id="ctl_rigging_sling_chain_inspection",
+            source="TINKER",
             control_type="Rigging Sling/Chain Inspection",
             rationale="Inspect all rigging hardware before overhead lifts to verify condition and rated capacity.",
         ),
@@ -334,13 +359,15 @@ def get_safety_record(record_id: str, db=Depends(get_db)):
     raise HTTPException(status_code=404, detail=f"Safety record {record_id} not found")
 
 
-@router.post("/api/v1/safety-records", response_model=SafetyRecord, status_code=201,
-             dependencies=[Depends(require_role("supervisor"))])
+@router.post(
+    "/api/v1/safety-records",
+    response_model=SafetyRecord,
+    status_code=201,
+    dependencies=[Depends(require_role("supervisor"))],
+)
 def create_safety_record(payload: SafetyRecordCreate, db=Depends(get_db)):
     """Creates a new safety record and associates it with the supplied PPE items."""
-    hazard = db.execute(
-        "SELECT hazard_id FROM hazards WHERE hazard_id = ?", (payload.hazard_id,)
-    ).fetchone()
+    hazard = db.execute("SELECT hazard_id FROM hazards WHERE hazard_id = ?", (payload.hazard_id,)).fetchone()
     if not hazard:
         raise HTTPException(status_code=404, detail=f"Hazard '{payload.hazard_id}' not found")
 
@@ -372,9 +399,7 @@ def create_safety_record(payload: SafetyRecordCreate, db=Depends(get_db)):
     )
 
     for ppe_id in payload.ppe_ids:
-        db.execute(
-            "INSERT INTO safety_record_ppe (record_id, ppe_id) VALUES (?, ?)", (record_id, ppe_id)
-        )
+        db.execute("INSERT INTO safety_record_ppe (record_id, ppe_id) VALUES (?, ?)", (record_id, ppe_id))
 
     db.commit()
     return get_safety_record(record_id, db)
@@ -401,9 +426,7 @@ def recommend_ppe(payload: PPERecommendationRequest, db=Depends(get_db)):
     if payload.severity_level:
         normalized = payload.severity_level.capitalize()
         if normalized not in SEVERITY_RANK:
-            raise HTTPException(
-                status_code=400, detail="severity_level must be one of: Low, Moderate, High, Severe"
-            )
+            raise HTTPException(status_code=400, detail="severity_level must be one of: Low, Moderate, High, Severe")
         severity_basis = normalized
     else:
         severity_basis = max(matched_records, key=lambda r: SEVERITY_RANK[r.exposure_level]).exposure_level
@@ -459,8 +482,9 @@ def _persist_ai_assessment(db, task_description: str, response: PPERecommendatio
     return assessment_id
 
 
-@router.post("/api/v1/analyze-task", response_model=TaskAnalysisResponse,
-             dependencies=[Depends(require_role("analyst"))])
+@router.post(
+    "/api/v1/analyze-task", response_model=TaskAnalysisResponse, dependencies=[Depends(require_role("analyst"))]
+)
 def analyze_task(payload: TaskAnalysisRequest, db=Depends(get_db)):
     """
     Analyzes a natural language description to extract intent and forwards

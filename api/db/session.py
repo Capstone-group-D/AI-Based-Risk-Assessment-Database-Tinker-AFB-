@@ -128,4 +128,3 @@ def get_db():
         yield conn
     finally:
         conn.close()
-

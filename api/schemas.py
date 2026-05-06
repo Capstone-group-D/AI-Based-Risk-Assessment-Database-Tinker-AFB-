@@ -16,12 +16,12 @@ class SafetyRecord(BaseModel):
     hazard_id: str
     hazard_label: str
     hazard_category: str
-    exposure_level: str       # "Low" | "Moderate" | "High" | "Severe"
+    exposure_level: str  # "Low" | "Moderate" | "High" | "Severe"
     temperature_f: Optional[int] = None
     noise_db: Optional[int] = None
     airborne_particles_ppm: Optional[float] = None
     supervisor: Optional[str] = None
-    shift: Optional[str] = None                # "Day" | "Swing" | "Night"
+    shift: Optional[str] = None  # "Day" | "Swing" | "Night"
     incident_flag: Optional[bool] = False
     ppe_required: List[PPEItem] = []
 
@@ -37,9 +37,11 @@ class PPERecommendationRequest(BaseModel):
             raise ValueError("Either material_id or process_type is required")
         return self
 
+
 class TaskAnalysisRequest(BaseModel):
     task_description: str
     severity_level: Optional[str] = "Moderate"
+
 
 class RecommendedPPEItem(BaseModel):
     ppe_id: str
@@ -87,6 +89,7 @@ class AIFeedbackCreated(BaseModel):
 
 
 # ─── Waste Management Schemas ─────────────────────────────────────────────────
+
 
 class WasteCategory(BaseModel):
     waste_category_id: str
@@ -154,6 +157,7 @@ class TaskWasteRelationship(BaseModel):
 
 # ─── AI Assessment History ────────────────────────────────────────────────────
 
+
 class AIAssessmentSummary(BaseModel):
     assessment_id: str
     created_at: str
@@ -175,6 +179,7 @@ class AIAssessmentDetail(BaseModel):
 
 # ─── Reference Data ───────────────────────────────────────────────────────────
 
+
 class PPEReference(BaseModel):
     ppe_id: str
     ppe_label: str
@@ -188,6 +193,7 @@ class HazardReference(BaseModel):
 
 
 # ─── AUL Materials ────────────────────────────────────────────────────────────
+
 
 class MaterialItem(BaseModel):
     msn: str
@@ -212,6 +218,7 @@ class MaterialAuthorizationItem(BaseModel):
 
 # ─── Auth / User ─────────────────────────────────────────────────────────────
 
+
 class TokenResponse(BaseModel):
     access_token: str
     refresh_token: str
@@ -233,6 +240,7 @@ class UserInfo(BaseModel):
 
 # ─── AUL-based PPE Recommendation ────────────────────────────────────────────
 
+
 class MaterialPPERequest(BaseModel):
     msn: str
     severity_level: Optional[Literal["Low", "Moderate", "High", "Severe"]] = "Moderate"
@@ -246,6 +254,7 @@ class MaterialPPEResponse(PPERecommendationResponse):
 
 
 # ─── Safety Record Creation ───────────────────────────────────────────────────
+
 
 class SafetyRecordCreate(BaseModel):
     date: str

@@ -42,4 +42,3 @@ def submit_ai_feedback(payload: AIFeedbackCreate, db=Depends(get_db)):
         assessment_id=payload.assessment_id,
         created_at=created_at,
     )
-

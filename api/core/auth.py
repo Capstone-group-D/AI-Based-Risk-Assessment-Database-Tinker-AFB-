@@ -37,6 +37,7 @@ from core.config import settings
 
 try:
     from jose import JWTError, jwt as jose_jwt
+
     _JOSE_AVAILABLE = True
 except ImportError:  # pragma: no cover
     _JOSE_AVAILABLE = False
@@ -101,6 +102,7 @@ def authenticate_user(username: str, password: str) -> Optional[dict]:
 
 
 # ── Token helpers ─────────────────────────────────────────────────────────────
+
 
 def _create_token(data: dict, expires_delta: timedelta) -> str:
     if not _JOSE_AVAILABLE or not settings.JWT_SECRET_KEY:
@@ -199,6 +201,7 @@ def require_role(minimum_role: str):
     Usage:
         @router.post("/...", dependencies=[Depends(require_role("supervisor"))])
     """
+
     def _check(user: Optional[dict] = Depends(get_current_user)):
         if user is None:
             return  # JWT disabled, open access
@@ -209,4 +212,5 @@ def require_role(minimum_role: str):
                 status_code=status.HTTP_403_FORBIDDEN,
                 detail=f"Insufficient permissions. Required role: {minimum_role}.",
             )
+
     return _check

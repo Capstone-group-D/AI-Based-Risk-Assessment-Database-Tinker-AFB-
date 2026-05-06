@@ -17,9 +17,7 @@ router = APIRouter()
 @router.get("/api/v1/ppe", response_model=List[PPEReference])
 def list_ppe(db=Depends(get_db)):
     """Returns all PPE items from the reference catalog, sorted by category then label."""
-    rows = db.execute(
-        "SELECT ppe_id, ppe_label, ppe_category FROM ppe ORDER BY ppe_category, ppe_label"
-    ).fetchall()
+    rows = db.execute("SELECT ppe_id, ppe_label, ppe_category FROM ppe ORDER BY ppe_category, ppe_label").fetchall()
     return [PPEReference(**row) for row in rows]
 
 

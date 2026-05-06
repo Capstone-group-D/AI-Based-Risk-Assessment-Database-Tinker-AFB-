@@ -43,6 +43,7 @@ app.add_middleware(
 
 # ── Public endpoints ──────────────────────────────────────────────────────────
 
+
 @app.get("/api/v1/health")
 def health_check():
     """Health check — no auth required so monitoring tools can probe freely."""
