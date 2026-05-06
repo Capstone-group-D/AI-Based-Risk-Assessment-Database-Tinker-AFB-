@@ -93,6 +93,17 @@ function AssessmentCard({ summary, onNavigate }) {
           )}
           {!detailLoading && detail && (
             <div className="detail-grid">
+              <div className="detail-actions">
+                <a
+                  href={`/api/v1/ai-assessments/${summary.assessment_id}/report`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="download-report-btn"
+                  aria-label="Open printable report for this assessment"
+                >
+                  🖨 Print / Save as PDF
+                </a>
+              </div>
               <div className="detail-col">
                 <h4>Required PPE</h4>
                 {detail.ppe_recommendations.length > 0 ? (
@@ -437,6 +448,14 @@ export default function RiskAssessments({ onNavigate }) {
           <p>AI-generated hazard analysis history.  Use the Dashboard to run a new assessment.</p>
         </div>
         <div className="header-actions">
+          <a
+            href="/api/v1/ai-assessments/export"
+            download
+            className="btn-export"
+            aria-label="Export all assessments as CSV"
+          >
+            ↓ Export CSV
+          </a>
           <button className="btn-secondary" onClick={handleOpenModal} disabled={refLoading}>
             {refLoading ? 'Loading…' : '+ Log Safety Record'}
           </button>

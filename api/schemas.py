@@ -269,3 +269,32 @@ class SafetyRecordCreate(BaseModel):
     shift: Optional[Literal["Day", "Swing", "Night"]] = None
     incident_flag: bool = False
     ppe_ids: List[str] = []
+
+
+# ─── Prediction ───────────────────────────────────────────────────────────────
+
+class RiskFactor(BaseModel):
+    label: str
+    incident_count: int
+    total_records: int
+    incident_rate: float  # 0.0 – 1.0
+
+
+class MonthlyTrend(BaseModel):
+    month: str          # "YYYY-MM"
+    total: int
+    incidents: int
+    incident_rate: float
+
+
+class PredictionResponse(BaseModel):
+    overall_risk_score: float           # 0–100 weighted score
+    risk_level: Literal["Low", "Moderate", "High", "Severe"]
+    overall_incident_rate: float        # fraction of records with incident_flag=1
+    total_records: int
+    total_incidents: int
+    top_hazards: List[RiskFactor]       # top 5 hazards by incident rate
+    top_locations: List[RiskFactor]     # top 3 locations by incident rate
+    monthly_trend: List[MonthlyTrend]   # last 12 months
+    severity_weights_used: Dict[str, float]
+    prediction_note: str

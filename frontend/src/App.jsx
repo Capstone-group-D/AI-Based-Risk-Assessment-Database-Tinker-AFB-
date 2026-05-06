@@ -12,6 +12,7 @@
  *   - 'ppe-guide'            → PPEGuide   (PPE catalog, hazard reference, AUL materials)
  *   - 'ai-feedback'          → AIFeedbackPanel
  *   - 'pollution-prevention' → PollutionPrevention
+ *   - 'risk-prediction'      → RiskPrediction (ML-style weighted score + trend)
  */
 
 import { useState, useEffect } from 'react'
@@ -23,6 +24,7 @@ import AIFeedbackPanel from './components/AIFeedbackPanel'
 import PollutionPrevention from './components/PollutionPrevention'
 import RiskAssessments from './components/RiskAssessments'
 import PPEGuide from './components/PPEGuide'
+import RiskPrediction from './components/RiskPrediction'
 import Login from './components/Login'
 import { getStoredUser, clearSession } from './api/auth'
 import { checkHealth } from './api/hazmat'
@@ -78,6 +80,8 @@ function App() {
         return <AIFeedbackPanel />
       case 'pollution-prevention':
         return <PollutionPrevention />
+      case 'risk-prediction':
+        return <RiskPrediction />
       default:
         return <Dashboard />
     }

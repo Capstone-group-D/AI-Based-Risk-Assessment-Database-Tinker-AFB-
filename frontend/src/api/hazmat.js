@@ -123,3 +123,18 @@ export async function recommendPPEForMaterial(msn, severityLevel = 'Moderate') {
   })
   return response.data
 }
+
+// ── Risk Prediction ───────────────────────────────────────────────────────────
+
+/**
+ * Fetches a predicted risk score and trend data based on historical records.
+ * @param {string|null} location   Optional location filter
+ * @param {string|null} workType   Optional work_type filter
+ */
+export async function fetchRiskPrediction(location = null, workType = null) {
+  const params = {}
+  if (location) params.location = location
+  if (workType) params.work_type = workType
+  const response = await client.get('/api/v1/predict-risk', { params })
+  return response.data
+}

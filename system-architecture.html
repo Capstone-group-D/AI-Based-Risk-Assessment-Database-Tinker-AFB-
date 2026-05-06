@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>System Architecture — AI Risk Assessment DB, Tinker AFB</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 11pt;
+    color: #1a0a0a;
+    background: #fff;
+    padding: 40px;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  h1 { font-size: 22pt; font-weight: 700; color: #1a0a0a; margin-bottom: 4px; }
+  h2 { font-size: 13pt; font-weight: 700; color: #991b1b; margin: 28px 0 8px; border-bottom: 2px solid #fecaca; padding-bottom: 4px; }
+  h3 { font-size: 11pt; font-weight: 700; color: #7f1d1d; margin: 14px 0 6px; }
+
+  .subtitle { color: #64748b; font-size: 10pt; margin-bottom: 24px; }
+
+  /* Stats strip */
+  .stats { display: flex; gap: 16px; margin: 18px 0; }
+  .stat {
+    flex: 1;
+    background: #fff5f5;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    padding: 12px 16px;
+    text-align: center;
+  }
+  .stat .val { font-size: 22pt; font-weight: 700; color: #991b1b; display: block; }
+  .stat .lbl { font-size: 9pt; color: #64748b; display: block; margin-top: 2px; }
+
+  svg text { font-family: 'Segoe UI', Arial, sans-serif; }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9.5pt;
+    margin-bottom: 8px;
+  }
+  thead th {
+    background: #991b1b;
+    color: #fff;
+    padding: 7px 10px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 9pt;
+  }
+  tbody tr:nth-child(odd)  { background: #fff5f5; }
+  tbody tr:nth-child(even) { background: #fff; }
+  tbody td { padding: 6px 10px; border-bottom: 1px solid #fecaca; vertical-align: top; }
+  td strong { color: #991b1b; }
+
+  /* Two-column grid */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 8px; }
+
+  /* Callout boxes */
+  .callout {
+    border-left: 4px solid #dc2626;
+    background: #fff5f5;
+    padding: 10px 14px;
+    border-radius: 0 6px 6px 0;
+    font-size: 9.5pt;
+    margin-bottom: 10px;
+  }
+  .callout.warn  { border-color: #f59e0b; background: #fffbeb; }
+  .callout.neutral { border-color: #94a3b8; background: #f8fafc; }
+  .callout strong { display: block; margin-bottom: 3px; font-size: 10pt; color: #1e293b; }
+
+  .section-divider { border: none; border-top: 1px solid #fecaca; margin: 24px 0 0; }
+
+  /* Tinker badge */
+  .badge {
+    display: inline-block;
+    background: #b45309;
+    color: #fff;
+    font-size: 7.5pt;
+    font-weight: 700;
+    padding: 1px 5px;
+    border-radius: 3px;
+    letter-spacing: 0.04em;
+    vertical-align: middle;
+  }
+
+  /* Big combined section box */
+  .combined-section {
+    border: 1px solid #fecaca;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 12px 0 24px;
+  }
+  .combined-section .section-label {
+    background: #991b1b;
+    color: #fff;
+    font-size: 8.5pt;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 5px 16px;
+  }
+  .combined-inner {
+    padding: 20px 24px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: start;
+  }
+  .combined-inner .diagram-col {
+    background: #fff5f5;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+  .combined-inner .tables-col {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  @media print {
+    body { padding: 20px; }
+    h2 { page-break-after: avoid; }
+    table { page-break-inside: avoid; }
+    .combined-section { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<h1>System Architecture</h1>
+<p class="subtitle">AI-Based Risk Assessment Database &mdash; Tinker AFB Capstone &nbsp;|&nbsp; May 2026</p>
+
+<!-- Stats -->
+<div class="stats">
+  <div class="stat"><span class="val">2</span><span class="lbl">Services</span></div>
+  <div class="stat"><span class="val">8</span><span class="lbl">API Routers</span></div>
+  <div class="stat"><span class="val">6</span><span class="lbl">Frontend Pages</span></div>
+  <div class="stat"><span class="val">11</span><span class="lbl">DB Tables</span></div>
+</div>
+
+<hr class="section-divider" />
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     COMBINED SECTION: Request Flow + Frontend/Backend + Data Sources
+     ═══════════════════════════════════════════════════════════════════ -->
+<h2>System Overview</h2>
+
+<div class="combined-section">
+  <div class="section-label">REQUEST FLOW &nbsp;·&nbsp; FRONTEND &amp; BACKEND &nbsp;·&nbsp; DATA SOURCES</div>
+  <div class="combined-inner">
+
+    <!-- LEFT: Architecture Diagram -->
+    <div class="diagram-col">
+      <svg width="360" height="640" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arr" viewBox="0 0 8 8" refX="8" refY="4" markerWidth="5" markerHeight="5" orient="auto">
+            <path d="M0 1 L8 4 L0 7 z" fill="#dc2626"/>
+          </marker>
+        </defs>
+
+        <!-- Layer labels -->
+        <text x="4" y="52"  font-size="7.5" fill="#b91c1c" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1">CLIENT</text>
+        <text x="4" y="132" font-size="7.5" fill="#b91c1c" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1">FRONTEND</text>
+        <text x="4" y="212" font-size="7.5" fill="#b91c1c" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1">TRANSPORT</text>
+        <text x="4" y="292" font-size="7.5" fill="#b91c1c" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1">API</text>
+        <text x="4" y="392" font-size="7.5" fill="#b91c1c" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1">CORE</text>
+        <text x="4" y="522" font-size="7.5" fill="#b91c1c" font-weight="700" font-family="Segoe UI,Arial,sans-serif" letter-spacing="1">DATA</text>
+
+        <!-- Rank bands -->
+        <rect x="60" y="24"  width="294" height="48" rx="5" fill="#fef2f2" opacity="0.8"/>
+        <rect x="60" y="104" width="294" height="48" rx="5" fill="#fff5f5" opacity="0.8"/>
+        <rect x="60" y="184" width="294" height="48" rx="5" fill="#fef2f2" opacity="0.8"/>
+        <rect x="60" y="264" width="294" height="48" rx="5" fill="#fee2e2" opacity="0.9"/>
+        <rect x="60" y="354" width="294" height="80" rx="5" fill="#fff5f5" opacity="0.8"/>
+        <rect x="60" y="494" width="294" height="114" rx="5" fill="#fef2f2" opacity="0.8"/>
+
+        <!-- Rank 0: Browser -->
+        <rect x="130" y="30" width="100" height="36" rx="5" fill="#fecaca" stroke="#f87171" stroke-width="1"/>
+        <text x="180" y="46" text-anchor="middle" font-size="11" font-weight="700" fill="#7f1d1d" font-family="Segoe UI,Arial,sans-serif">Browser</text>
+        <text x="180" y="59" text-anchor="middle" font-size="8.5" fill="#991b1b" font-family="Segoe UI,Arial,sans-serif">User</text>
+
+        <!-- Edge: Browser → Frontend -->
+        <line x1="180" y1="66" x2="180" y2="102" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arr)"/>
+
+        <!-- Rank 1: React + Vite -->
+        <rect x="130" y="108" width="100" height="36" rx="5" fill="#fff" stroke="#f87171" stroke-width="1.5"/>
+        <text x="180" y="124" text-anchor="middle" font-size="11" font-weight="700" fill="#1e293b" font-family="Segoe UI,Arial,sans-serif">React + Vite</text>
+        <text x="180" y="137" text-anchor="middle" font-size="8.5" fill="#64748b" font-family="Segoe UI,Arial,sans-serif">port 3000</text>
+
+        <!-- Edge: Frontend → Proxy -->
+        <line x1="180" y1="144" x2="180" y2="182" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arr)"/>
+
+        <!-- Rank 2: Dev Proxy / Nginx -->
+        <rect x="130" y="188" width="100" height="36" rx="5" fill="#fecaca" stroke="#f87171" stroke-width="1"/>
+        <text x="180" y="203" text-anchor="middle" font-size="10" font-weight="700" fill="#7f1d1d" font-family="Segoe UI,Arial,sans-serif">Dev Proxy</text>
+        <text x="180" y="217" text-anchor="middle" font-size="8" fill="#991b1b" font-family="Segoe UI,Arial,sans-serif">/api/* → :8000</text>
+
+        <!-- Edge: Proxy → FastAPI -->
+        <line x1="180" y1="224" x2="180" y2="262" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arr)"/>
+
+        <!-- Rank 3: FastAPI -->
+        <rect x="130" y="268" width="100" height="36" rx="5" fill="#991b1b" stroke="none"/>
+        <text x="180" y="284" text-anchor="middle" font-size="12" font-weight="700" fill="#fff" font-family="Segoe UI,Arial,sans-serif">FastAPI</text>
+        <text x="180" y="297" text-anchor="middle" font-size="8" fill="#fca5a5" font-family="Segoe UI,Arial,sans-serif">port 8000 · CORS · Auth</text>
+
+        <!-- Edges: FastAPI → Auth / NLP / Engine -->
+        <line x1="155" y1="304" x2="90"  y2="352" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arr)"/>
+        <line x1="180" y1="304" x2="180" y2="352" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arr)"/>
+        <line x1="205" y1="304" x2="274" y2="352" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arr)"/>
+
+        <!-- Rank 4: Auth / NLP / Engine -->
+        <!-- Auth -->
+        <rect x="62"  y="358" width="80" height="66" rx="5" fill="#fff" stroke="#fca5a5" stroke-width="1.5"/>
+        <text x="102" y="376" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1e293b" font-family="Segoe UI,Arial,sans-serif">Auth</text>
+        <text x="102" y="389" text-anchor="middle" font-size="7.5" fill="#64748b" font-family="Segoe UI,Arial,sans-serif">JWT / API Key</text>
+        <text x="102" y="401" text-anchor="middle" font-size="7.5" fill="#64748b" font-family="Segoe UI,Arial,sans-serif">viewer</text>
+        <text x="102" y="413" text-anchor="middle" font-size="7.5" fill="#64748b" font-family="Segoe UI,Arial,sans-serif">analyst</text>
+        <text x="102" y="418" text-anchor="middle" font-size="7.5" fill="#64748b" font-family="Segoe UI,Arial,sans-serif">supervisor</text>
+
+        <!-- NLP Engine -->
+        <rect x="140" y="358" width="80" height="66" rx="5" fill="#fff" stroke="#fca5a5" stroke-width="1.5"/>
+        <text x="180" y="376" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1e293b" font-family="Segoe UI,Arial,sans-serif">NLP Engine</text>
+        <text x="180" y="389" text-anchor="middle" font-size="7.5" fill="#64748b" font-family="Segoe UI,Arial,sans-serif">spaCy</text>
+        <text x="180" y="401" text-anchor="middle" font-size="7.5" fill="#64748b" font-family="Segoe UI,Arial,sans-serif">keyword extract</text>
+        <text x="180" y="413" text-anchor="middle" font-size="7.5" fill="#64748b" font-family="Segoe UI,Arial,sans-serif">thefuzz match</text>
+
+        <!-- Rec Engine -->
+        <rect x="218" y="358" width="80" height="66" rx="5" fill="#fff" stroke="#fca5a5" stroke-width="1.5"/>
+        <text x="258" y="376" text-anchor="middle" font-size="9.5" font-weight="700" fill="#1e293b" font-family="Segoe UI,Arial,sans-serif">Rec Engine</text>
+        <text x="258" y="389" text-anchor="middle" font-size="7.5" fill="#64748b" font-family="Segoe UI,Arial,sans-serif">PPE recs</text>
+        <text x="258" y="401" text-anchor="middle" font-size="7.5" fill="#64748b" font-family="Segoe UI,Arial,sans-serif">Eng controls</text>
+        <text x="258" y="413" text-anchor="middle" font-size="7.5" fill="#b45309" font-family="Segoe UI,Arial,sans-serif">Tinker mapped</text>
+
+        <!-- Edges to Data layer -->
+        <line x1="175" y1="424" x2="140" y2="492" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arr)"/>
+        <line x1="258" y1="424" x2="230" y2="492" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arr)"/>
+        <line x1="278" y1="424" x2="296" y2="492" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arr)"/>
+
+        <!-- Rank 5: SQLite + Source Data -->
+        <!-- SQLite -->
+        <rect x="80"  y="500" width="130" height="52" rx="5" fill="#fecaca" stroke="#f87171" stroke-width="1"/>
+        <text x="145" y="518" text-anchor="middle" font-size="10" font-weight="700" fill="#7f1d1d" font-family="Segoe UI,Arial,sans-serif">SQLite Database</text>
+        <text x="145" y="531" text-anchor="middle" font-size="7.5" fill="#991b1b" font-family="Segoe UI,Arial,sans-serif">risk_assessment.db</text>
+        <text x="145" y="543" text-anchor="middle" font-size="7.5" fill="#991b1b" font-family="Segoe UI,Arial,sans-serif">11 tables · 120+ records</text>
+
+        <!-- Tinker Source Data -->
+        <rect x="222" y="500" width="120" height="52" rx="5" fill="#fef3c7" stroke="#fbbf24" stroke-width="1.5"/>
+        <text x="282" y="518" text-anchor="middle" font-size="10" font-weight="700" fill="#92400e" font-family="Segoe UI,Arial,sans-serif">Source Data</text>
+        <text x="282" y="531" text-anchor="middle" font-size="7.5" fill="#b45309" font-family="Segoe UI,Arial,sans-serif">Form JSON + AUL CSV</text>
+        <text x="282" y="543" text-anchor="middle" font-size="7.5" fill="#b45309" font-family="Segoe UI,Arial,sans-serif">17 Tinker controls</text>
+      </svg>
+    </div>
+
+    <!-- RIGHT: Frontend, Backend, Data tables stacked -->
+    <div class="tables-col">
+
+      <div>
+        <h3>Frontend Pages</h3>
+        <table>
+          <thead><tr><th>Page</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Dashboard</strong></td><td>Task analysis &rarr; PPE + controls</td></tr>
+            <tr><td><strong>Analytics</strong></td><td>Incident trends, hazard frequency, compliance charts</td></tr>
+            <tr><td><strong>Risk Assessments</strong></td><td>AI history, detail view, log safety records</td></tr>
+            <tr><td><strong>PPE Guide</strong></td><td>PPE catalog, hazard reference, AUL materials</td></tr>
+            <tr><td><strong>Pollution Prevention</strong></td><td>P2 opportunities &amp; waste tracking</td></tr>
+            <tr><td><strong>AI Feedback</strong></td><td>Thumbs up/down, report inaccuracy</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div>
+        <h3>Backend Routers &nbsp;<span style="font-size:8pt;font-weight:400;color:#64748b;">:8000</span></h3>
+        <table>
+          <thead><tr><th>Router</th><th>Key Endpoints</th></tr></thead>
+          <tbody>
+            <tr><td><strong>safety_records</strong></td><td>GET/POST /safety-records</td></tr>
+            <tr><td><strong>materials</strong></td><td>GET /materials · POST /recommend-ppe</td></tr>
+            <tr><td><strong>assessments</strong></td><td>GET /ai-assessments · GET /:id</td></tr>
+            <tr><td><strong>reference_data</strong></td><td>GET /ppe · GET /hazards</td></tr>
+            <tr><td><strong>waste</strong></td><td>Waste records, recycling, P2 items</td></tr>
+            <tr><td><strong>auth_router</strong></td><td>POST /auth/login · POST /auth/refresh</td></tr>
+            <tr><td><strong>admin</strong></td><td>POST /admin/login</td></tr>
+            <tr><td><strong>feedback</strong></td><td>POST /ai-feedback</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div>
+        <h3>Data Sources</h3>
+        <table>
+          <thead><tr><th>Source</th><th>Contents</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>risk_assessment.db</strong><br/><span style="font-size:8pt;color:#64748b;">SQLite &rarr; PostgreSQL</span></td>
+              <td>11 tables — hazards (33), PPE (19), safety records (120+), materials, shops, authorizations, ai_assessments, feedback, waste, docs</td>
+            </tr>
+            <tr>
+              <td><strong>Form JSON</strong> <span class="badge">TINKER AFB</span></td>
+              <td>33 hazards, 19 PPE items, 17 procedural controls (LOTO, confined space, hot work, vehicle/rigging inspections)</td>
+            </tr>
+            <tr>
+              <td><strong>AUL CSV</strong> <span class="badge">TINKER AFB</span></td>
+              <td>Authorized User List — MSN numbers, shop codes, process names, max-on-hand quantities</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<hr class="section-divider" />
+
+<!-- Design Notes -->
+<h2>Design Notes</h2>
+<div class="two-col">
+  <div>
+    <div class="callout">
+      <strong>Auth Modes</strong>
+      Three tiers via env vars: open access (dev/demo), API key (X-API-Key header), full JWT with roles (viewer / analyst / supervisor). Frontend auto-detects mode from GET /api/v1/health.
+    </div>
+    <div class="callout">
+      <strong>NLP Pipeline</strong>
+      User types plain-language task description. spaCy tokenizes and extracts keywords. thefuzz fuzzy-matches against the hazard catalog and work types to pick the recommendation path.
+    </div>
+  </div>
+  <div>
+    <div class="callout warn">
+      <strong>SQLite Limitations</strong>
+      Single-file DB, good for demo. Schema auto-migrates at startup. check_same_thread=False required for FastAPI's thread pool. Swap for PostgreSQL before production.
+    </div>
+    <div class="callout neutral">
+      <strong>Tinker Form Integration</strong>
+      17 procedural controls from the official Tinker AFB Risk Assessment Form are mapped 1:1 to hazard IDs. Badged as <span class="badge">TINKER AFB FORM</span> in all three result panels.
+    </div>
+  </div>
+</div>
+
+<hr class="section-divider" />
+<p style="font-size:8.5pt;color:#94a3b8;margin-top:18px;text-align:center;">
+  Capstone Group D &nbsp;·&nbsp; Tinker AFB &nbsp;·&nbsp; May 2026 &nbsp;·&nbsp;
+  <em>github.com/Capstone-group-D/AI-Based-Risk-Assessment-Database-Tinker-AFB-</em>
+</p>
+
+</body>
+</html>

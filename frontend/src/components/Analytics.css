@@ -31,7 +31,8 @@
 }
 
 .analytics-controls select,
-.analytics-controls button {
+.analytics-controls button,
+.analytics-controls .export-btn {
   background: #12141a;
   border: 1px solid #2a2d35;
   color: #e5e7eb;
@@ -50,6 +51,22 @@
 
 .analytics-controls button:hover {
   background: #e55a28;
+}
+
+.analytics-controls .export-btn {
+  background: #1e3a5f;
+  border-color: #2563eb;
+  color: #93c5fd;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.analytics-controls .export-btn:hover {
+  background: #1d4ed8;
+  color: #fff;
 }
 
 .analytics-updated {

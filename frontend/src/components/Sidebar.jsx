@@ -25,6 +25,7 @@ const NAV_ITEMS = [
   { id: 'analytics', label: 'Analytics', icon: '◈' },
   { id: 'assessments', label: 'Risk Assessments', icon: '⬢' },
   { id: 'ppe-guide', label: 'PPE Guide', icon: '⬣' },
+  { id: 'risk-prediction', label: 'Risk Prediction', icon: '◎' },
   { id: 'pollution-prevention', label: 'Pollution Prevention', icon: '♻' },
 ]
 

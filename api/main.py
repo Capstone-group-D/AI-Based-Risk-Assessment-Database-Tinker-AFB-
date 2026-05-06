@@ -25,6 +25,7 @@ from routers.assessments import router as assessments_router
 from routers.reference_data import router as reference_data_router
 from routers.materials import router as materials_router
 from routers.auth_router import router as auth_router
+from routers.prediction import router as prediction_router
 
 
 app = FastAPI(
@@ -74,3 +75,4 @@ app.include_router(waste_router, dependencies=_api_key_dep)
 app.include_router(assessments_router, dependencies=_api_key_dep)
 app.include_router(reference_data_router, dependencies=_api_key_dep)
 app.include_router(materials_router, dependencies=_api_key_dep)
+app.include_router(prediction_router, dependencies=_api_key_dep)

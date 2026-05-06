@@ -1,5 +1,8 @@
 from fastapi import APIRouter, HTTPException, Depends
+from fastapi.responses import StreamingResponse
 from typing import List, Dict
+import csv
+import io
 import json
 import uuid
 from datetime import datetime
@@ -343,6 +346,48 @@ def _get_all_safety_records(db) -> List[SafetyRecord]:
     return safety_records
 
 
+@router.get("/api/v1/safety-records/export")
+def export_safety_records_csv(db=Depends(get_db)):
+    """
+    Returns all safety records as a downloadable CSV file.
+    Declared before /{record_id} so FastAPI doesn't swallow 'export' as a path param.
+    """
+    rows = db.execute(
+        """SELECT
+               sr.record_id, sr.date, sr.location, sr.work_type,
+               h.hazard_label, h.hazard_category, sr.exposure_level,
+               sr.incident_flag, sr.temperature_f, sr.noise_db,
+               sr.airborne_particles_ppm, sr.supervisor, sr.shift
+           FROM safety_records sr
+           JOIN hazards h ON sr.hazard_id = h.hazard_id
+           ORDER BY sr.date DESC"""
+    ).fetchall()
+
+    output = io.StringIO()
+    writer = csv.writer(output)
+    writer.writerow([
+        "Record ID", "Date", "Location", "Work Type",
+        "Hazard", "Hazard Category", "Exposure Level",
+        "Incident", "Temperature (°F)", "Noise (dB)",
+        "Airborne Particles (ppm)", "Supervisor", "Shift",
+    ])
+    for r in rows:
+        writer.writerow([
+            r["record_id"], r["date"], r["location"], r["work_type"],
+            r["hazard_label"], r["hazard_category"], r["exposure_level"],
+            "Yes" if r["incident_flag"] else "No",
+            r["temperature_f"] or "", r["noise_db"] or "",
+            r["airborne_particles_ppm"] or "", r["supervisor"] or "", r["shift"] or "",
+        ])
+    output.seek(0)
+    filename = f"tinker_safety_records_{datetime.now().strftime('%Y%m%d')}.csv"
+    return StreamingResponse(
+        iter([output.getvalue()]),
+        media_type="text/csv",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
+    )
+
+
 @router.get("/api/v1/safety-records", response_model=List[SafetyRecord])
 def list_safety_records(db=Depends(get_db)):
     """Returns the complete list of safety records in the database."""
@@ -526,3 +571,7 @@ def analyze_task(payload: TaskAnalysisRequest, db=Depends(get_db)):
                 except HTTPException:
                     raise
         raise
+
+
+# ── Export ─────────────────────────────────────────────────────────────────────
+

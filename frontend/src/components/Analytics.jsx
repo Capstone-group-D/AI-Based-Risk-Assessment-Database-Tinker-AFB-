@@ -292,6 +292,14 @@ export default function Analytics() {
             ))}
           </select>
           <button type="button" onClick={loadRecords}>Refresh Data</button>
+          <a
+            href="/api/v1/safety-records/export"
+            download
+            className="export-btn"
+            aria-label="Export all safety records as CSV"
+          >
+            ↓ Export CSV
+          </a>
         </div>
       </div>
 
