@@ -302,7 +302,23 @@ export default function Analytics() {
       {loading && <div className="analytics-card status-card">Loading analytics dataset…</div>}
       {error && <div className="analytics-card status-card error">{error}</div>}
 
-      {!loading && !error && (
+      {!loading && !error && filteredRecords.length === 0 && (
+        <div className="analytics-empty-card">
+          <h3>{records.length === 0 ? 'No analytics data yet' : 'No records in this range'}</h3>
+          <p>
+            {records.length === 0
+              ? 'Log a safety record first so this page has data to summarize.'
+              : "No records match this date range. Try 'All Time' in the date filter."}
+          </p>
+          {records.length === 0 ? (
+            <button type="button" onClick={loadRecords}>Refresh Data</button>
+          ) : (
+            <button type="button" onClick={() => setDateFilter('all')}>Show All Time</button>
+          )}
+        </div>
+      )}
+
+      {!loading && !error && filteredRecords.length > 0 && (
         <>
           <div className="analytics-kpis">
             <div className="analytics-card kpi-card">
