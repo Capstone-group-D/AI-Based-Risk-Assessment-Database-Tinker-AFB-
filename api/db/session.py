@@ -86,6 +86,66 @@ CREATE INDEX IF NOT EXISTS idx_matauth_shop_code ON material_authorizations(shop
 CREATE INDEX IF NOT EXISTS idx_matauth_msn ON material_authorizations(msn);
 CREATE INDEX IF NOT EXISTS idx_ai_feedback_assessment_id ON ai_feedback(assessment_id);
 CREATE INDEX IF NOT EXISTS idx_ai_feedback_created_at ON ai_feedback(created_at);
+CREATE TABLE IF NOT EXISTS waste_categories (
+    waste_category_id TEXT PRIMARY KEY,
+    category_name TEXT NOT NULL,
+    hazard_class TEXT,
+    disposal_method TEXT,
+    epa_code TEXT
+);
+CREATE TABLE IF NOT EXISTS waste_records (
+    waste_record_id TEXT PRIMARY KEY,
+    date_generated TEXT,
+    location TEXT,
+    waste_category_id TEXT REFERENCES waste_categories(waste_category_id),
+    quantity_kg REAL,
+    quantity_unit TEXT DEFAULT 'kg',
+    generator_name TEXT,
+    process_type TEXT,
+    container_type TEXT,
+    storage_location TEXT,
+    disposal_date TEXT,
+    disposal_method TEXT,
+    recycler_name TEXT,
+    cost_usd REAL,
+    notes TEXT,
+    created_at TEXT DEFAULT (datetime('now')),
+    updated_at TEXT DEFAULT (datetime('now'))
+);
+CREATE TABLE IF NOT EXISTS recycling_opportunities (
+    opportunity_id TEXT PRIMARY KEY,
+    waste_category_id TEXT REFERENCES waste_categories(waste_category_id),
+    opportunity_name TEXT NOT NULL,
+    description TEXT,
+    recycler_contact TEXT,
+    estimated_value_per_kg REAL,
+    environmental_impact TEXT,
+    is_active INTEGER DEFAULT 1,
+    created_at TEXT DEFAULT (datetime('now'))
+);
+CREATE TABLE IF NOT EXISTS pollution_prevention_opportunities (
+    opportunity_id TEXT PRIMARY KEY,
+    task_name TEXT NOT NULL,
+    task_description TEXT,
+    waste_category_id TEXT REFERENCES waste_categories(waste_category_id),
+    prevention_method TEXT,
+    expected_reduction_percent REAL,
+    implementation_cost_usd REAL,
+    payback_period_months INTEGER,
+    priority_level TEXT,
+    responsible_party TEXT,
+    status TEXT DEFAULT 'Identified',
+    notes TEXT,
+    created_at TEXT DEFAULT (datetime('now')),
+    updated_at TEXT DEFAULT (datetime('now'))
+);
+CREATE TABLE IF NOT EXISTS task_waste_relationships (
+    task_name TEXT NOT NULL,
+    waste_category_id TEXT REFERENCES waste_categories(waste_category_id),
+    average_quantity_kg REAL,
+    frequency TEXT,
+    PRIMARY KEY (task_name, waste_category_id)
+);
 """
 
 

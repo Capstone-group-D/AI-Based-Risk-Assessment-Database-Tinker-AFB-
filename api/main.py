@@ -1,16 +1,18 @@
 """
-main.py — FastAPI Backend for AI-Based Risk Assessment Database
+main.py — FastAPI entry point for the Tinker AFB AI-Based Risk Assessment System.
 
-Tinker AFB PPE Recommendation Engine — Sprint 4 API
+Run the development server:
+    cd api
+    source venv/bin/activate
+    python3 -m uvicorn main:app --reload --port 8000
 
-Run with:
-  uvicorn main:app --reload --port 8000
+Authentication modes (configured via api/.env):
+  - No env vars set    → fully open, no credentials required (dev/demo)
+  - API_KEY=xxx        → all data routes require the X-API-Key header
+  - JWT_SECRET_KEY=xxx → full user login with role-based access (viewer/analyst/supervisor)
+  - Both set           → API key is accepted as a supervisor-level override
 
-Auth modes (set in api/.env):
-  - No env vars set    → fully open (dev/demo mode)
-  - API_KEY=xxx        → all data routes require X-API-Key header
-  - JWT_SECRET_KEY=xxx → full user login with roles (viewer/analyst/supervisor)
-  - Both set           → API key accepted as supervisor-level override
+Interactive API documentation is available at http://localhost:8000/docs when running.
 """
 
 from fastapi import FastAPI, Depends

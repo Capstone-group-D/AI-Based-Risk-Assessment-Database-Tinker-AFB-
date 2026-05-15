@@ -151,6 +151,9 @@ function AULMaterialsTab() {
   const [search, setSearch] = useState('')
   const [searchInput, setSearchInput] = useState('')
 
+  const [shopCode, setShopCode] = useState('')
+  const [shopCodeInput, setShopCodeInput] = useState('')
+
   const [expanded, setExpanded] = useState(null)
   const [auths, setAuths] = useState([])
   const [authsLoading, setAuthsLoading] = useState(false)
@@ -164,14 +167,21 @@ function AULMaterialsTab() {
   useEffect(() => {
     setLoading(true)
     setError(null)
-    fetchMaterials(search)
+    fetchMaterials(search, shopCode)
       .then((data) => { setMaterials(data); setLoading(false) })
       .catch(() => { setError('Could not load AUL materials.'); setLoading(false) })
-  }, [search])
+  }, [search, shopCode])
 
   const handleSearch = (e) => {
     e.preventDefault()
     setSearch(searchInput)
+    setShopCode(shopCodeInput.trim().toUpperCase())
+    setExpanded(null)
+  }
+
+  const handleClearShop = () => {
+    setShopCodeInput('')
+    setShopCode('')
     setExpanded(null)
   }
 
@@ -208,14 +218,48 @@ function AULMaterialsTab() {
   return (
     <div className="tab-content">
       <form className="materials-search-form" onSubmit={handleSearch}>
-        <input
-          type="text"
-          className="guide-search"
-          placeholder="Search by material name or MSN…"
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
-        />
-        <button type="submit" className="search-btn">Search</button>
+        <div className="materials-search-row">
+          <input
+            type="text"
+            className="guide-search"
+            placeholder="Search by material name or MSN…"
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+          />
+          <div className="shop-code-search-group">
+            <span className="shop-code-search-icon">🏭</span>
+            <input
+              type="text"
+              className="guide-search shop-code-input"
+              placeholder="Filter by shop code (e.g. 553)"
+              value={shopCodeInput}
+              onChange={(e) => setShopCodeInput(e.target.value.toUpperCase())}
+              maxLength={10}
+              id="shop-code-filter-input"
+            />
+            {shopCode && (
+              <button
+                type="button"
+                className="shop-code-clear-btn"
+                onClick={handleClearShop}
+                title="Clear shop code filter"
+                aria-label="Clear shop code filter"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+          <button type="submit" className="search-btn">Search</button>
+        </div>
+
+        {shopCode && (
+          <div className="active-shop-filter">
+            <span className="active-filter-badge">
+              🏭 Shop: <strong>{shopCode}</strong>
+            </span>
+            <span className="active-filter-hint">Showing materials authorized for this shop</span>
+          </div>
+        )}
       </form>
 
       {loading && (
@@ -228,7 +272,9 @@ function AULMaterialsTab() {
 
       {!loading && !error && materials.length === 0 && (
         <div className="guide-empty">
-          {search ? 'No materials match your search.' : 'No AUL data available. Import the CSV to populate this section.'}
+          {search || shopCode
+            ? `No materials match your search${shopCode ? ` for shop "${shopCode}"` : ''}.`
+            : 'No AUL data available. Import the CSV to populate this section.'}
         </div>
       )}
 
@@ -353,7 +399,7 @@ function AULMaterialsTab() {
                         <tbody>
                           {auths.map((a) => (
                             <tr key={a.id}>
-                              <td><span className="shop-code-tag">{a.shop_code}</span></td>
+                              <td><span className={`shop-code-tag${shopCode && a.shop_code === shopCode ? ' highlighted' : ''}`}>{a.shop_code}</span></td>
                               <td>{a.process_name || '—'}</td>
                               <td>{a.local_process_name || '—'}</td>
                               <td>{a.dist_pct != null ? `${a.dist_pct}%` : '—'}</td>

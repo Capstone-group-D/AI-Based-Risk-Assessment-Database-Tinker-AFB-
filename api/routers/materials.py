@@ -22,12 +22,29 @@ router = APIRouter()
 
 
 @router.get("/api/v1/materials", response_model=List[MaterialItem])
-def list_materials(q: Optional[str] = None, db=Depends(get_db)):
-    """Returns AUL materials, with optional full-text search on noun or MSN.
+def list_materials(q: Optional[str] = None, shop_code: Optional[str] = None, db=Depends(get_db)):
+    """Returns AUL materials, with optional full-text search on noun or MSN,
+    and optional filtering by shop code (returns only materials authorized for that shop).
 
     Capped at 200 rows per call to keep responses snappy.
     """
-    if q:
+    if shop_code and q:
+        rows = db.execute(
+            """SELECT DISTINCT m.msn, m.noun, m.bulk_issue FROM materials m
+               JOIN material_authorizations ma ON ma.msn = m.msn
+               WHERE ma.shop_code = ? AND (m.noun LIKE ? OR m.msn LIKE ?)
+               ORDER BY m.noun LIMIT 200""",
+            (shop_code.upper(), f"%{q}%", f"%{q}%"),
+        ).fetchall()
+    elif shop_code:
+        rows = db.execute(
+            """SELECT DISTINCT m.msn, m.noun, m.bulk_issue FROM materials m
+               JOIN material_authorizations ma ON ma.msn = m.msn
+               WHERE ma.shop_code = ?
+               ORDER BY m.noun LIMIT 200""",
+            (shop_code.upper(),),
+        ).fetchall()
+    elif q:
         rows = db.execute(
             """SELECT msn, noun, bulk_issue FROM materials
                WHERE noun LIKE ? OR msn LIKE ?

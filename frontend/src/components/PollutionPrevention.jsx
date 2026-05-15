@@ -15,9 +15,7 @@ export default function PollutionPrevention() {
   const fetchOpportunities = async () => {
     try {
       setLoading(true)
-      // Need to change later
-      //let url = 'http://localhost:8000/api/v1/pollution-prevention'
-      let url = 'http://localhost:8000/pollution-prevention'
+      let url = '/api/v1/pollution-prevention'
 
       const params = new URLSearchParams()
       if (filterPriority) params.append('priority_level', filterPriority)

@@ -95,8 +95,10 @@ export async function fetchHazards() {
 
 // ── AUL Materials ─────────────────────────────────────────────────────────────
 
-export async function fetchMaterials(q = '') {
-  const params = q ? { q } : {}
+export async function fetchMaterials(q = '', shopCode = '') {
+  const params = {}
+  if (q) params.q = q
+  if (shopCode) params.shop_code = shopCode
   const response = await client.get('/api/v1/materials', { params })
   return response.data
 }
