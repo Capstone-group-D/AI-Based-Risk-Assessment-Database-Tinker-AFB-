@@ -518,15 +518,28 @@ export default function RiskAssessments({ onNavigate }) {
 
       {!loading && !error && assessments.length === 0 && (
         <div className="empty-card">
-          No assessments yet.{' '}
+          <h3>No risk assessments yet</h3>
+          <p>Run an analysis first so completed assessments appear here.</p>
           <button className="inline-link" onClick={() => onNavigate('dashboard')}>
-            Run your first assessment on the Dashboard →
+            Run an analysis first
           </button>
         </div>
       )}
 
       {!loading && !error && assessments.length > 0 && filtered.length === 0 && (
-        <div className="empty-card">No assessments match your current filters.</div>
+        <div className="empty-card">
+          <h3>No matches found</h3>
+          <p>No assessments match the current search and severity filters.</p>
+          <button
+            className="inline-link"
+            onClick={() => {
+              setSearch('')
+              setSeverityFilter('All')
+            }}
+          >
+            Clear filters
+          </button>
+        </div>
       )}
 
       {!loading && !error && filtered.length > 0 && (

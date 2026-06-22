@@ -428,6 +428,20 @@
   font-size: 0.82rem;
 }
 
+.empty-card h3 {
+  margin: 0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.95rem;
+  color: #e0e0e0;
+}
+
+.empty-card p {
+  margin: 10px auto 16px;
+  max-width: 460px;
+  color: #9ca3af;
+  line-height: 1.5;
+}
+
 .inline-link {
   background: none;
   border: none;

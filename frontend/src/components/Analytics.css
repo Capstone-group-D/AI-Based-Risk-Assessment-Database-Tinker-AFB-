@@ -176,6 +176,46 @@
   color: #fca5a5;
 }
 
+.analytics-empty-card {
+  background: #1e2028;
+  border: 1px solid #2a2d35;
+  border-radius: 10px;
+  padding: 28px;
+  text-align: center;
+  color: #d1d5db;
+}
+
+.analytics-empty-card h3 {
+  margin: 0;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.95rem;
+  color: #f9fafb;
+}
+
+.analytics-empty-card p {
+  margin: 10px auto 18px;
+  max-width: 460px;
+  color: #9ca3af;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.analytics-empty-card button {
+  background: #ff6b35;
+  border: 1px solid #ff6b35;
+  color: #fff;
+  border-radius: 6px;
+  padding: 9px 14px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.analytics-empty-card button:hover {
+  background: #e55a28;
+}
+
 @media (max-width: 960px) {
   .analytics-grid,
   .analytics-kpis {
